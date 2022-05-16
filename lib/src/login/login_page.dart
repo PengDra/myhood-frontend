@@ -1,34 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:myhood/src/login/login_controller.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  LoginController _con;
+  @override
+  void initState() {
+    // TODO: implement initState
+    
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) { 
+      _con.init(context);
+    });
+
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
           width: double.infinity,
-          child: Column(
-            children: [
-              _imageBanner(),
-              _textFieldEmail(),
-              _textFieldPassword(),
-              _buttonLogin(),
-              _textDontHaveAccount()
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _imageBanner(),
+                _textFieldEmail(),
+                _textFieldPassword(),
+                _buttonLogin(),
+                _textDontHaveAccount()
+              ],
+            ),
           )),
     );
   }
 
   Widget _imageBanner() {
     return Container(
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.22, bottom: MediaQuery.of(context).size.height * 0.22),
+      margin: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.22,
+          bottom: MediaQuery.of(context).size.height * 0.22),
       child: Image.asset(
         'assets/img/iconomyhood300x300.png',
         width: 200,
@@ -41,10 +59,9 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacity,
-        borderRadius: BorderRadius.circular(30)
-      ),
-      child:  TextField(
+          color: MyColors.primaryOpacity,
+          borderRadius: BorderRadius.circular(30)),
+      child: TextField(
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Email',
@@ -60,10 +77,9 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacity,
-        borderRadius: BorderRadius.circular(30)
-      ),
-      child:  TextField(
+          color: MyColors.primaryOpacity,
+          borderRadius: BorderRadius.circular(30)),
+      child: TextField(
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Password',
@@ -80,37 +96,35 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: ElevatedButton(
-        onPressed: () {},
-        child: Text('Iniciar sesión'),
-        style: ElevatedButton.styleFrom(
-          primary: MyColors.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          padding: EdgeInsets.symmetric(vertical: 15)
-
-        )
-          
-        ),
+          onPressed: () {},
+          child: Text('Iniciar sesión'),
+          style: ElevatedButton.styleFrom(
+              primary: MyColors.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 15))),
     );
   }
 
   Widget _textDontHaveAccount() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Text('¿No tienes una cuenta?',
+      children: [
+        const Text('¿No tienes una cuenta?',
             style: TextStyle(
               color: MyColors.primary,
             )),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
-        Text('Registrate',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: MyColors.purple,
-            )),
+        GestureDetector(
+            onTap: _con.goToRegisterPage,
+            child: const Text('Registrate',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: MyColors.purple,
+                ))),
       ],
     );
   }
