@@ -3,7 +3,6 @@ import 'package:myhood/src/utils/my_colors.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
-
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
@@ -22,11 +21,17 @@ class _RegisterPageState extends State<RegisterPage> {
               _imageUser(),
               const SizedBox(height: 20),
               _textFieldEmail(),
+              const SizedBox(height: 20),
               _textFieldName(),
+              const SizedBox(height: 20),
               _textFieldLastName(),
+              const SizedBox(height: 20),
               _textFieldRut(),
+              const SizedBox(height: 20),
               _textFieldPhone(),
+              const SizedBox(height: 20),
               _textFieldPassword(),
+              const SizedBox(height: 20),
               _textFieldConfirmPassword(),
               const SizedBox(height: 20),
               _buttonRegister(),
