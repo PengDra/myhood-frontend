@@ -11,7 +11,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginController _con;
+  LoginController _con = new LoginController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                 _textFieldEmail(),
                 _textFieldPassword(),
                 _buttonLogin(),
-                _textDontHaveAccount()
+                _textDontHaveAccount(),
               ],
             ),
           )),
@@ -60,8 +61,11 @@ class _LoginPageState extends State<LoginPage> {
       margin: EdgeInsets.symmetric(horizontal: 50),
       decoration: BoxDecoration(
           color: MyColors.primaryOpacity,
-          borderRadius: BorderRadius.circular(30)),
+          borderRadius: BorderRadius.circular(30)
+      ),
       child: TextField(
+        controller: _con.emailController,      
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Email',
@@ -80,6 +84,8 @@ class _LoginPageState extends State<LoginPage> {
           color: MyColors.primaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        obscureText: true,
+        controller: _con.passwordController,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Password',
@@ -96,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed:_con.login,
           child: Text('Iniciar sesión'),
           style: ElevatedButton.styleFrom(
               primary: MyColors.primary,
@@ -106,8 +112,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.symmetric(vertical: 15))),
     );
   }
-
-  Widget _textDontHaveAccount() {
+  Widget _textDontHaveAccount(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -124,7 +129,9 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: MyColors.purple,
-                ))),
+                )
+              )
+            ),
       ],
     );
   }

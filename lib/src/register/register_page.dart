@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:myhood/src/register/register_controller.dart';
 import 'package:myhood/src/utils/my_colors.dart';
+
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
@@ -8,12 +11,21 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  RegisterController _con = new RegisterController();
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _con.init(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        margin: EdgeInsets.only(top: 150),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -56,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _imageUser() {
     return CircleAvatar(
-      backgroundImage: AssetImage('assets/images/user_profile.png'),
+      backgroundImage: AssetImage('assets/images/user_profile_2.png'),
       radius: 50,
       backgroundColor: Colors.grey[200],
     );
@@ -69,6 +81,8 @@ class _RegisterPageState extends State<RegisterPage> {
           color: MyColors.primaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        keyboardType: TextInputType.emailAddress,
+        controller: _con.emailController,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Email',
@@ -87,6 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
           color: MyColors.primaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        controller: _con.nameController,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Nombre',
@@ -105,6 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
           color: MyColors.primaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        controller: _con.lastNameController,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Apellido',
@@ -123,6 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
           color: MyColors.primaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        controller: _con.rutController,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'RUT',
@@ -141,6 +158,8 @@ class _RegisterPageState extends State<RegisterPage> {
           color: MyColors.primaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        keyboardType: TextInputType.phone,
+        controller: _con.phoneController,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Telefono',
@@ -159,6 +178,8 @@ class _RegisterPageState extends State<RegisterPage> {
           color: MyColors.primaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        controller: _con.passwordController,
+        obscureText: true,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Password',
@@ -177,6 +198,8 @@ class _RegisterPageState extends State<RegisterPage> {
           color: MyColors.primaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        controller: _con.confirmPasswordController,
+        obscureText: true,
         decoration: InputDecoration(
           hintStyle: TextStyle(color: MyColors.black),
           hintText: 'Confirmar Password',
@@ -193,7 +216,7 @@ class _RegisterPageState extends State<RegisterPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: _con.register,
           child: Text('Registrarse'),
           style: ElevatedButton.styleFrom(
               primary: MyColors.primary,
