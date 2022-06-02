@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:myhood/src/login/login_controller.dart';
+import 'package:myhood/src/pages/login/login_controller.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 
 class LoginPage extends StatefulWidget {

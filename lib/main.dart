@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myhood/src/login/login_page.dart';
-import 'package:myhood/src/register/register_page.dart';
+import 'package:myhood/src/pages/login/login_page.dart';
+import 'package:myhood/src/pages/register/register_page.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 
 void main() {
