@@ -68,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _imageUser() {
     return CircleAvatar(
-      backgroundImage: AssetImage('assets/images/user_profile_2.png'),
+      //backgroundImage: AssetImage('assets/images/user_profile_2.png'),
       radius: 50,
       backgroundColor: Colors.grey[200],
     );

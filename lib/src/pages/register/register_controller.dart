@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myhood/src/models/response_api.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/provider/users_provider.dart';
+import 'package:myhood/src/utils/my_snackbar.dart';
 
 class RegisterController{
   BuildContext context;
@@ -32,6 +33,23 @@ class RegisterController{
     String password = passwordController.text.trim();
     String confirmPassword = confirmPasswordController.text.trim();
 
+
+    if(email.isEmpty||name.isEmpty||lastName.isEmpty||rut.isEmpty||phone.isEmpty||password.isEmpty||confirmPassword.isEmpty){
+      
+      MySnackbar.show(context, "Todos los campos son obligatorios");
+      return;
+    }
+
+    if(password != confirmPassword){
+      MySnackbar.show(context, "Las contraseñas no coinciden");
+      return;
+    }
+
+    if(password.length<6){
+      MySnackbar.show(context, "La contraseña debe tener al menos 6 caracteres");
+      return;
+    }
+
     User user = new User(
       email: email,
       name: name,
@@ -42,7 +60,9 @@ class RegisterController{
     );
     ResponseApi responseApi = await usersProvider.create(user);
 
-    print('Respuesta : ${responseApi.toJson()}');
+    MySnackbar.show(context, responseApi.message);
+
+    
   }
 
 
