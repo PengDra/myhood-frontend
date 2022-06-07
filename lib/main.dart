@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myhood/src/pages/client/products/list/client_products_list_page.dart';
+import 'package:myhood/src/pages/store/orders/list/store_orders_list_page.dart';
+import 'package:myhood/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:myhood/src/pages/login/login_page.dart';
 import 'package:myhood/src/pages/register/register_page.dart';
 import 'package:myhood/src/utils/my_colors.dart';
@@ -24,7 +26,9 @@ class _MyAppState extends State<MyApp> {
       routes:{
         'login':(BuildContext context)=>LoginPage(),
         'register':(BuildContext context)=>RegisterPage(),
-        'client/products/list':(BuildContext context)=>ClientProductsListPage()
+        'client/products/list':(BuildContext context)=>ClientProductsListPage(),
+        'delivery/orders/list':(BuildContext context)=> DeliveryOrderListPage(),
+        'store/orders/list':(BuildContext context)=> StoreOrderListPage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primary,

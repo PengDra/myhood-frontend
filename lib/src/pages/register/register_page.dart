@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _textRegister() {
     return Row(
       children: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
+        IconButton(onPressed: _con.back, icon: const Icon(Icons.arrow_back_ios)),
         const Text(
           'REGISTRO',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
