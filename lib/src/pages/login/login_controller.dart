@@ -22,7 +22,13 @@ class LoginController {
     //Si el usuario no esta vacio se carga la pantalla automaticamente desde el session token
     //El ? revisa si el usuario esta null
     if(user?.sessionToken != null){
-      Navigator.pushNamedAndRemoveUntil(context,'client/products/list', (route) => false);
+     if(user.roles.length > 1){
+        //Si usuario tiene mas de un rol se redirecciona a la pantalla de roles
+        Navigator.pushNamedAndRemoveUntil(context, 'roles',((route) => false));
+      }else{
+        //Redirecciona y elimina las pantallas anteriores  
+        Navigator.pushNamedAndRemoveUntil(context,user.roles[0].route, (route) => false);
+      }
     }
 
   }
@@ -38,9 +44,16 @@ class LoginController {
       //Si logra hacer login guarda el token en el shared preferences
       User user = User.fromJson(responseApi.data);
       _sharedPref.save('user', user.toJson());
-      //Redirecciona y elimina las pantallas anteriores
-      Navigator.pushNamedAndRemoveUntil(context,'client/products/list', (route) => false);
+      
+      if(user.roles.length > 1){
+        //Si usuario tiene mas de un rol se redirecciona a la pantalla de roles
+        Navigator.pushNamedAndRemoveUntil(context, 'roles',((route) => false));
+      }else{
+        //Redirecciona y elimina las pantallas anteriores  
+        Navigator.pushNamedAndRemoveUntil(context,user.roles[0].route, (route) => false);
+      }
 
+      
     }else{
       MySnackbar.show(context, responseApi.message);
     }
