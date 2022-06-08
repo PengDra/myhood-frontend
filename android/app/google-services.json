@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "885158261191",
+    "project_id": "myhood-887be",
+    "storage_bucket": "myhood-887be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885158261191:android:40a2bdad95a98f1cce69e2",
+        "android_client_info": {
+          "package_name": "com.example.myhood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885158261191-hrmsfqotq48fj55o792mnge7oium5klu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0WZ0AugWh5JP_FN1r_lldMMHdekvz5aE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885158261191-hrmsfqotq48fj55o792mnge7oium5klu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

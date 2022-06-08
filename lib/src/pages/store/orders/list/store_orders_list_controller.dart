@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
-class ClientProductsListController{
+class StoreOrdersListController{
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
-
   Function refresh;
   User user;
 
