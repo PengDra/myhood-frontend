@@ -17,7 +17,7 @@ class LoginController {
   Future init(BuildContext context)async {
     this.context = context;
     await usersProvider.init(context);
-    //Buscar datos en el shared preferences si es null llena un mapa vacio
+    //Buscar datos en el shared preferences si es null llena un mapa vacio 
     User user = await _sharedPref.read('user') ??{};
     //Si el usuario no esta vacio se carga la pantalla automaticamente desde el session token
     //El ? revisa si el usuario esta null

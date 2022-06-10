@@ -16,7 +16,7 @@ class UsersProvider {
   Future init(BuildContext context) {
     this.context = context;
   }
-  Future<User > getById(String id) async {
+  Future<User> getById(String id) async {
     try{
       Uri url = Uri.http(_url, '$_api/findById/$id');
       Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -35,7 +35,8 @@ class UsersProvider {
   }
   Future<Stream>createWithImage(User user,File image)async{
     try{
-      //Se genera la url desde la cual se va a consumir el servicio
+      print(user.toString());
+       //Se genera la url desde la cual se va a consumir el servicio
       Uri url = Uri.http(_url, '$_api/create');
       //Se crea el mapa con los datos que se van a enviar(Request Multipart)
       final request = http.MultipartRequest('POST', url);
@@ -48,7 +49,7 @@ class UsersProvider {
           filename: basename(image.path),
         ));
       }
-
+      
       //Se agrega el body del request
       request.fields['user']=json.encode('user');
       //Se envia el request al servicio

@@ -92,7 +92,9 @@ class RegisterController {
 
       //ResponseApi responseApi = await usersProvider.create(user);
       ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+      //print the response
       MySnackbar.show(context, responseApi.message);
+      
 
       if (responseApi.success) {
         Future.delayed(Duration(seconds: 2), () {
