@@ -81,18 +81,21 @@ class RegisterController {
       phone: phone,
       password: password,
     );
+    print(user.toJson());
+    MySnackbar.show(context,user.email + " "+user.name + " "+user.lastname+ " "+user.rut);
 
     Stream stream = await usersProvider.createWithImage(user, imageFile);
 
     stream.listen((res) {
 
       _progressDialog.close();
-      isEnabled = false;
+      //isEnabled = false;
 
 
       //ResponseApi responseApi = await usersProvider.create(user);
       ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
       //print the response
+      print('RESPUESTA : ${responseApi.toJson()}');
       MySnackbar.show(context, responseApi.message);
       
 
