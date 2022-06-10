@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:myhood/src/pages/client/update/client_update_controller.dart';
 import 'package:myhood/src/pages/register/register_controller.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key key}) : super(key: key);
+class ClientUpdatePage extends StatefulWidget {
+  const ClientUpdatePage({Key key}) : super(key: key);
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<ClientUpdatePage> createState() => _ClientUpdatePageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  RegisterController _con = new RegisterController();
+class _ClientUpdatePageState extends State<ClientUpdatePage> {
+  ClientUpdateController _con = new ClientUpdateController();
 
   @override
   void initState() {
@@ -24,34 +25,29 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title:Text('Editar Perfil')
+      ),
       body: Container(
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              _textRegister(),
+              const SizedBox(height: 50),           
               _imageUser(),
-              const SizedBox(height: 20),
-              _textFieldEmail(),
               const SizedBox(height: 20),
               _textFieldName(),
               const SizedBox(height: 20),
               _textFieldLastName(),
               const SizedBox(height: 20),
-              _textFieldRut(),
-              const SizedBox(height: 20),
               _textFieldPhone(),
               const SizedBox(height: 20),
-              _textFieldPassword(),
-              const SizedBox(height: 20),
-              _textFieldConfirmPassword(),
-              const SizedBox(height: 20),
-              _buttonRegister(),
+              
             ],
           ),
         ),
       ),
+      bottomNavigationBar: _buttonRegister(),
     );
   }
 
@@ -60,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
       children: [
         IconButton(onPressed: _con.back, icon: const Icon(Icons.arrow_back_ios)),
         const Text(
-          'REGISTRO',
+          'ATRAS',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ],
@@ -75,6 +71,10 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundImage: _con.imageFile != null 
                         //Si la imagen existe, la muestra en el circulo
                         ? FileImage(_con.imageFile)
+                        //Si la url de la imagen existe 
+                        :_con.user?.image != null
+                        //muestrala desde interntet
+                        ? NetworkImage(_con.user.image)
                         //Si no existe, muestra la imagen por defecto
                         : AssetImage('assets/img/user_profile_2.png'),
         radius: 50,
@@ -83,25 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _textFieldEmail() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacity,
-          borderRadius: BorderRadius.circular(30)),
-      child: TextField(
-        keyboardType: TextInputType.emailAddress,
-        controller: _con.emailController,
-        decoration: InputDecoration(
-          hintStyle: TextStyle(color: MyColors.black),
-          hintText: 'Email',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(Icons.email, color: MyColors.primary),
-        ),
-      ),
-    );
-  }
+  
 
   Widget _textFieldName() {
     return Container(
@@ -141,24 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _textFieldRut() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacity,
-          borderRadius: BorderRadius.circular(30)),
-      child: TextField(
-        controller: _con.rutController,
-        decoration: InputDecoration(
-          hintStyle: TextStyle(color: MyColors.black),
-          hintText: 'RUT',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(Icons.person, color: MyColors.primary),
-        ),
-      ),
-    );
-  }
+  
 
   Widget _textFieldPhone() {
     return Container(
@@ -180,52 +145,13 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _textFieldPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacity,
-          borderRadius: BorderRadius.circular(30)),
-      child: TextField(
-        controller: _con.passwordController,
-        obscureText: true,
-        decoration: InputDecoration(
-          hintStyle: TextStyle(color: MyColors.black),
-          hintText: 'Password',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(Icons.lock, color: MyColors.primary),
-        ),
-      ),
-    );
-  }
-
-  Widget _textFieldConfirmPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacity,
-          borderRadius: BorderRadius.circular(30)),
-      child: TextField(
-        controller: _con.confirmPasswordController,
-        obscureText: true,
-        decoration: InputDecoration(
-          hintStyle: TextStyle(color: MyColors.black),
-          hintText: 'Confirmar Password',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(Icons.lock_outline, color: MyColors.primary),
-        ),
-      ),
-    );
-  }
 
   Widget _buttonRegister() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: ElevatedButton(
-          onPressed: _con.isEnabled ? _con.register:null,
+          onPressed: _con.isEnabled ? _con.update:null,
           child: Text('Registrarse'),
           style: ElevatedButton.styleFrom(
               primary: MyColors.primary,

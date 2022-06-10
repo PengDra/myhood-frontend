@@ -2,23 +2,22 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myhood/src/models/response_api.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/provider/users_provider.dart';
 import 'package:myhood/src/utils/my_snackbar.dart';
+import 'package:myhood/src/utils/shared_pref.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-class RegisterController {  
+class ClientUpdateController {
   BuildContext context;
 
-  TextEditingController emailController = new TextEditingController();
   TextEditingController nameController = new TextEditingController();
   TextEditingController lastNameController = new TextEditingController();
-  TextEditingController rutController = new TextEditingController();
+
   TextEditingController phoneController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  TextEditingController confirmPasswordController = new TextEditingController();
 
   UsersProvider usersProvider = new UsersProvider();
 
@@ -28,77 +27,55 @@ class RegisterController {
 
   ProgressDialog _progressDialog;
   bool isEnabled = true;
-
+  User user;
+  SharedPref sharedPref = new SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     _progressDialog = new ProgressDialog(context: context);
     usersProvider.init(context);
+    user = await sharedPref.read('user');
+    nameController.text = user.name;
+    lastNameController.text = user.lastname;
+    phoneController.text = user.phone;
+    refresh();
   }
 
-  void register() async {
-    String email = emailController.text.trim();
+  void update() async {
     String name = nameController.text.trim();
     String lastName = lastNameController.text.trim();
-    String rut = rutController.text.trim();
+
     String phone = phoneController.text.trim();
-    String password = passwordController.text.trim();
-    String confirmPassword = confirmPasswordController.text.trim();
 
-    if (email.isEmpty ||
-        name.isEmpty ||
-        lastName.isEmpty ||
-        rut.isEmpty ||
-        phone.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
+    if (name.isEmpty || lastName.isEmpty || phone.isEmpty) {
       MySnackbar.show(context, "Todos los campos son obligatorios");
-      return;
-    }
-
-    if (password != confirmPassword) {
-      MySnackbar.show(context, "Las contraseñas no coinciden");
-      return;
-    }
-
-    if (password.length < 6) {
-      MySnackbar.show(
-          context, "La contraseña debe tener al menos 6 caracteres");
-      return;
-    }
-    if (imageFile == null) {
-      MySnackbar.show(context, "Debe seleccionar una imagen");
       return;
     }
     _progressDialog.show(max: 100, msg: "Registrando usuario...");
 
-    User user = new User(
-      email: email,
+    User myUser = new User(
+      id: user.id,
       name: name,
       lastname: lastName,
-      rut: rut,
       phone: phone,
-      password: password,
+      image: user.image
     );
 
-    Stream stream = await usersProvider.createWithImage(user, imageFile);
+    Stream stream = await usersProvider.update(myUser, imageFile);
 
-    stream.listen((res) {
-
+    stream.listen((res)async {
       _progressDialog.close();
       isEnabled = false;
 
-
-      //ResponseApi responseApi = await usersProvider.create(user);
       ResponseApi responseApi = ResponseApi.fromJson(res);
-      MySnackbar.show(context, responseApi.message);
+      Fluttertoast.showToast(msg: responseApi.message);
 
       if (responseApi.success) {
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.pushReplacementNamed(context, 'login');
-        });
-      }else{
+        user = await usersProvider.getById(user.id);//Obteniendo datos actualizados desde bd
+        await sharedPref.save('user', user.toJson());//Guardando datos actualizados en sharedPref
+        Navigator.pushNamedAndRemoveUntil(context, 'client/products/list', (route) => false);
+      } else {
         MySnackbar.show(context, responseApi.message);
         isEnabled = true;
       }

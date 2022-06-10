@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myhood/src/pages/client/products/list/client_products_list_page.dart';
+import 'package:myhood/src/pages/client/update/client_update_page.dart';
 import 'package:myhood/src/pages/roles/roles_page.dart';
 import 'package:myhood/src/pages/store/orders/list/store_orders_list_page.dart';
 import 'package:myhood/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
@@ -28,9 +29,11 @@ class _MyAppState extends State<MyApp> {
         'login':(BuildContext context)=>LoginPage(),
         'register':(BuildContext context)=>RegisterPage(),
         'client/products/list':(BuildContext context)=>ClientProductsListPage(),
+        'client/update':(BuildContext context)=>ClientUpdatePage(),
         'delivery/orders/list':(BuildContext context)=> DeliveryOrderListPage(),
         'store/orders/list':(BuildContext context)=> StoreOrderListPage(),
         'roles':(BuildContext context)=>RolesPage(),
+        
       },
       theme: ThemeData(
         primaryColor: MyColors.primary,

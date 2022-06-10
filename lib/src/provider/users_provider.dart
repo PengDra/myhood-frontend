@@ -8,6 +8,7 @@ import 'package:myhood/src/models/user.dart';
 import 'package:path/path.dart';
 
 class UsersProvider {
+
   String _url = Environment.API_MyHOOD;
   String _api = '/api/users';
   BuildContext context;
@@ -15,12 +16,57 @@ class UsersProvider {
   Future init(BuildContext context) {
     this.context = context;
   }
+  Future<User > getById(String id) async {
+    try{
+      Uri url = Uri.http(_url, '$_api/findById/$id');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      final data = json.decode(res.body);
+      User user = new User.fromJson(data);
+      return user;
+
+
+    }catch(e){
+      print(e);
+      return null;
+    }
+    
+    
+  }
   Future<Stream>createWithImage(User user,File image)async{
     try{
       //Se genera la url desde la cual se va a consumir el servicio
       Uri url = Uri.http(_url, '$_api/create');
       //Se crea el mapa con los datos que se van a enviar(Request Multipart)
       final request = http.MultipartRequest('POST', url);
+      //Si el la imagen no es nula se agrega al request
+      if(image!=null){
+        request.files.add(http.MultipartFile(
+          'image',
+          http.ByteStream(image.openRead().cast()),
+          await image.length(),
+          filename: basename(image.path),
+        ));
+      }
+
+      //Se agrega el body del request
+      request.fields['user']=json.encode('user');
+      //Se envia el request al servicio
+      final response = await request.send();
+      return response.stream.transform(utf8.decoder);
+      
+    }catch(e){
+      print('Error: '+e);
+      return null;
+    }
+
+  }
+  Future<Stream>update(User user,File image)async{
+    try{
+      //Se genera la url desde la cual se va a consumir el servicio
+      Uri url = Uri.http(_url, '$_api/update');
+      //Se crea el mapa con los datos que se van a enviar(Request Multipart)
+      final request = http.MultipartRequest('PUT', url);
       //Si el la imagen no es nula se agrega al request
       if(image!=null){
         request.files.add(http.MultipartFile(
