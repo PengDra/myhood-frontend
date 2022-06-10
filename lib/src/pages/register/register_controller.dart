@@ -91,7 +91,7 @@ class RegisterController {
 
 
       //ResponseApi responseApi = await usersProvider.create(user);
-      ResponseApi responseApi = ResponseApi.fromJson(res);
+      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
       MySnackbar.show(context, responseApi.message);
 
       if (responseApi.success) {
