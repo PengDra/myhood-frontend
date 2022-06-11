@@ -82,6 +82,15 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                     ),
                     maxLines: 1,
                   ),
+                  Text('${_con.user?.phone??' '}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[200],
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic
+                    ),
+                    maxLines: 1,
+                  ),
                   Container(
                     height: 60,
                     child: FadeInImage(

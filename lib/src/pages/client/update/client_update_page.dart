@@ -152,7 +152,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: ElevatedButton(
           onPressed: _con.isEnabled ? _con.update:null,
-          child: Text('Registrarse'),
+          child: Text('Actualizar Datos'),
           style: ElevatedButton.styleFrom(
               primary: MyColors.primary,
               shape: RoundedRectangleBorder(

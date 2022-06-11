@@ -45,7 +45,6 @@ class ClientUpdateController {
   void update() async {
     String name = nameController.text.trim();
     String lastName = lastNameController.text.trim();
-
     String phone = phoneController.text.trim();
 
     if (name.isEmpty || lastName.isEmpty || phone.isEmpty) {
@@ -68,11 +67,12 @@ class ClientUpdateController {
       _progressDialog.close();
       isEnabled = false;
 
-      ResponseApi responseApi = ResponseApi.fromJson(res);
+      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
       Fluttertoast.showToast(msg: responseApi.message);
 
       if (responseApi.success) {
-        user = await usersProvider.getById(user.id);//Obteniendo datos actualizados desde bd
+        user = await usersProvider.getById(myUser.id);//Obteniendo datos actualizados desde bd
+        print(user.toJson());
         await sharedPref.save('user', user.toJson());//Guardando datos actualizados en sharedPref
         Navigator.pushNamedAndRemoveUntil(context, 'client/products/list', (route) => false);
       } else {

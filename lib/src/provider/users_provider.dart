@@ -21,11 +21,10 @@ class UsersProvider {
       Uri url = Uri.http(_url, '$_api/findById/$id');
       Map<String, String> headers = {'Content-Type': 'application/json'};
       final res = await http.get(url, headers: headers);
+      print(res.body);
       final data = json.decode(res.body);
-      User user = new User.fromJson(data);
+      User user = User.fromJson(data);
       return user;
-
-
     }catch(e){
       print(e);
       return null;
