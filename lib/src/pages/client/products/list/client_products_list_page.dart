@@ -27,10 +27,9 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _con.key,
+      drawer: _drawer(),
       appBar:AppBar(
-        leading: _menuDrawer(),
-        
-        
+        leading:_menuDrawer()
       ),
       body: Center(
         child: ElevatedButton(

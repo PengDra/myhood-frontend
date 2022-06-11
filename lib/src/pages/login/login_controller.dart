@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:myhood/src/models/response_api.dart';
 import 'package:myhood/src/models/user.dart';
@@ -12,28 +14,31 @@ class LoginController {
   TextEditingController passwordController = new TextEditingController();
   UsersProvider usersProvider = new UsersProvider();
   SharedPref _sharedPref = new SharedPref();
+  bool existe = false;
+  User userSharedPref = User();
 
 
   Future init(BuildContext context)async {
     this.context = context;
     await usersProvider.init(context);
-    bool existe =await _sharedPref.exist('user');
-    print(existe);
+    //print the content of the shared preferences
+    print(await _sharedPref.read('user'));
     //Buscar datos en el shared preferences si es null llena un mapa vacio 
-    User user = await _sharedPref.read('user') ?? new User();
-    print(user.toJson());
-    //Si el usuario no esta vacio se carga la pantalla automaticamente desde el session token
-    //El ? revisa si el usuario esta null
-    if(user?.sessionToken != null){
-     if(user.roles.length > 1){
-        //Si usuario tiene mas de un rol se redirecciona a la pantalla de roles
-        Navigator.pushNamedAndRemoveUntil(context, 'roles',((route) => false));
-      }else{
-        //Redirecciona y elimina las pantallas anteriores  
-        Navigator.pushNamedAndRemoveUntil(context,user.roles[0].route, (route) => false);
+    //User user = await _sharedPref.read('user') ?? {};
+    if(existe =await _sharedPref.exist('user')){
+      User userSharedPref = User.fromJson(await _sharedPref.read('user'))?? User();
+       //Si el usuario no esta vacio se carga la pantalla automaticamente desde el session token
+      //El ? revisa si el usuario esta null
+      if(userSharedPref?.sessionToken != null){
+      if(userSharedPref.roles.length > 1){
+          //Si usuario tiene mas de un rol se redirecciona a la pantalla de roles
+          Navigator.pushNamedAndRemoveUntil(context, 'roles',((route) => false));
+        }else{
+          //Redirecciona y elimina las pantallas anteriores  
+          Navigator.pushNamedAndRemoveUntil(context,userSharedPref.roles[0].route, (route) => false);
+        }
       }
     }
-
   }
 
   void goToRegisterPage() {

@@ -48,7 +48,7 @@ class User {
         image: json["image"],
         password: json["password"],
         sessionToken: json["session_token"],
-        roles: json ["roles"]== null ? [] : List<Rol>.from(json["roles"].map((model) => Rol.fromJson(model))??[]),
+        roles: json["roles"]== null ? [] : List<Rol>.from(json['roles'].map((model) => Rol.fromJson(model)))??[],
         //Si el roles es null, lo pone vacio, si no lo pone como lista desde el modelo
     );
 
@@ -62,6 +62,6 @@ class User {
         "image": image,
         "password": password,
         "session_token": sessionToken,
-        "roles": roles,
+        "roles": roles
     };
 }
