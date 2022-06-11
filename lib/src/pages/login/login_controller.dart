@@ -17,8 +17,11 @@ class LoginController {
   Future init(BuildContext context)async {
     this.context = context;
     await usersProvider.init(context);
+    bool existe =await _sharedPref.exist('user');
+    print(existe);
     //Buscar datos en el shared preferences si es null llena un mapa vacio 
-    User user = await _sharedPref.read('user') ??{};
+    User user = await _sharedPref.read('user') ?? new User();
+    print(user.toJson());
     //Si el usuario no esta vacio se carga la pantalla automaticamente desde el session token
     //El ? revisa si el usuario esta null
     if(user?.sessionToken != null){
@@ -44,6 +47,8 @@ class LoginController {
       //Si logra hacer login guarda el token en el shared preferences
       User user = User.fromJson(responseApi.data);
       _sharedPref.save('user', user.toJson());
+      bool existe =await _sharedPref.exist('user');
+      print(existe);
       
       if(user.roles.length > 1){
         //Si usuario tiene mas de un rol se redirecciona a la pantalla de roles

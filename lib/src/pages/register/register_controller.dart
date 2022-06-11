@@ -89,7 +89,7 @@ class RegisterController {
     stream.listen((res) {
 
       _progressDialog.close();
-      //isEnabled = false;
+      isEnabled = false;
 
 
       //ResponseApi responseApi = await usersProvider.create(user);

@@ -79,7 +79,7 @@ class UsersProvider {
       }
 
       //Se agrega el body del request
-      request.fields['user']=json.encode('user');
+      request.fields['user']=json.encode(user);
       //Se envia el request al servicio
       final response = await request.send();
       return response.stream.transform(utf8.decoder);

@@ -30,6 +30,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
       appBar:AppBar(
         leading: _menuDrawer(),
         
+        
       ),
       body: Center(
         child: ElevatedButton(
