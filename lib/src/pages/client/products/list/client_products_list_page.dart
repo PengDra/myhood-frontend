@@ -16,8 +16,8 @@ class ClientProductsListPage extends StatefulWidget {
 class _ClientProductsListPageState extends State<ClientProductsListPage> {
   
   ClientProductsListController _con =new ClientProductsListController();
-  
-  void innitState(){
+  @override
+  void initState(){
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context,refresh);

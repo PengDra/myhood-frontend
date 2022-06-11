@@ -12,6 +12,7 @@ class ClientProductsListController{
 
   Future init(BuildContext context, Function refresh)async{
     this.context = context;  
+    print('Dentro del init');
     user = User.fromJson(await _sharedPref.read('user')); 
     print(user.toJson()); 
     this.refresh = refresh;
