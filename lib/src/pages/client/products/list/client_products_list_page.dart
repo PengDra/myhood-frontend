@@ -14,11 +14,12 @@ class ClientProductsListPage extends StatefulWidget {
 }
 
 class _ClientProductsListPageState extends State<ClientProductsListPage> {
+  
   ClientProductsListController _con =new ClientProductsListController();
   
   void innitState(){
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context,refresh);
     });
   }
@@ -29,7 +30,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
       key: _con.key,
       drawer: _drawer(),
       appBar:AppBar(
-        leading:_menuDrawer()
+        //leading:_menuDrawer(),
       ),
       body: Center(
         child: ElevatedButton(

@@ -24,7 +24,7 @@ class LoginController {
     //print the content of the shared preferences
     print(await _sharedPref.read('user'));
     //Buscar datos en el shared preferences si es null llena un mapa vacio 
-    //User user = await _sharedPref.read('user') ?? {};
+    //User user = User.fromJson(await _sharedPref.read('user')) ?? {};
     if(existe =await _sharedPref.exist('user')){
       User userSharedPref = User.fromJson(await _sharedPref.read('user'))?? User();
        //Si el usuario no esta vacio se carga la pantalla automaticamente desde el session token
