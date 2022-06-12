@@ -55,39 +55,50 @@ class _StoreOrderListPageState extends State<StoreOrderListPage> {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: MyColors.primary,
+              decoration: BoxDecoration(
+                color: MyColors.primary,
+              ),
+              child:Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${_con.user?.name??' '} ${_con.user?.lastname??' '}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),
+                    maxLines: 1,
+                  ),
+                  Text('${_con.user?.email??' '}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[200],
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic
+                    ),
+                    maxLines: 1,
+                  ),
+                  Text('${_con.user?.phone??' '}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[200],
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic
+                    ),
+                    maxLines: 1,
+                  ),
+                  Container(
+                    height: 60,
+                    child: FadeInImage(
+                      image:_con.user?.image != null? NetworkImage(_con.user?.image) :AssetImage('assets/img/no-image.png'),
+                      fit: BoxFit.contain,
+                      fadeInDuration: Duration(milliseconds: 50),
+                      placeholder: AssetImage('assets/img/no-image.png'),
+                    ),       
+                  ),   
+                ]
+              ),
             ),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                'Nombre de usuario',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-                maxLines: 1,
-              ),
-              Text(
-                'Correo',
-                style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[200],
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic),
-                maxLines: 1,
-              ),
-              Container(
-                height: 60,
-                child: FadeInImage(
-                  image: AssetImage('assets/img/no-image.png'),
-                  fit: BoxFit.contain,
-                  fadeInDuration: Duration(milliseconds: 50),
-                  placeholder: AssetImage('assets/img/no-image.png'),
-                ),
-              ),
-            ]),
-          ),
           //Si el usuario no es null entonces (?)
           _con.user != null
               ?

@@ -7,6 +7,7 @@ import 'package:myhood/src/pages/store/orders/list/store_orders_list_page.dart';
 import 'package:myhood/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:myhood/src/pages/login/login_page.dart';
 import 'package:myhood/src/pages/register/register_page.dart';
+import 'package:myhood/src/pages/store/products/create/store_products_create_page.dart';
 
 import 'package:myhood/src/utils/my_colors.dart';
 
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         'delivery/orders/list':(BuildContext context)=> DeliveryOrderListPage(),
         'store/orders/list':(BuildContext context)=> StoreOrderListPage(),
         'store/categories/create':(BuildContext context)=>StoreCategoriesCreatePage(),
-        
+        'store/products/create':(BuildContext context)=>StoreProductsCreatePage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primary,
