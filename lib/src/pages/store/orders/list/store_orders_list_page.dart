@@ -117,6 +117,11 @@ class _StoreOrderListPageState extends State<StoreOrderListPage> {
             title: Text('Crear Categoria'),
             trailing: Icon(Icons.list_alt),
           ),
+          ListTile(
+            onTap: _con.goToProductCreate,
+            title: Text('Crear Productos'),
+            trailing: Icon(Icons.emoji_food_beverage_outlined),
+          ),
 
           ListTile(
             onTap: _con.logout,

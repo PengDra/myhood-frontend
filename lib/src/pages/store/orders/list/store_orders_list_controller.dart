@@ -21,6 +21,9 @@ class StoreOrdersListController{
   void goToCategoryCreate(){
     Navigator.pushNamed(context, 'store/categories/create');
   }
+  void goToProductCreate(){
+    Navigator.pushNamed(context, 'store/products/create');
+  }
   void openDrawer(){
     key.currentState.openDrawer();
 

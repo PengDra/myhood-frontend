@@ -18,6 +18,7 @@ class Categori {
     String id;
     String name;
     String description;
+    List<Categori> toList = [];
 
     factory Categori.fromJson(Map<String, dynamic> json) => Categori(
         id: json["id"],
@@ -30,4 +31,12 @@ class Categori {
         "name": name,
         "description": description,
     };
+    Categori.fromJsonList(List<dynamic> jsonList) {
+        if (jsonList == null) return;
+        jsonList.forEach((element) {
+          print(element);
+          Categori categori = Categori.fromJson(element);
+          toList.add(categori);
+        });
+    }
 }

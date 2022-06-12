@@ -17,7 +17,29 @@ class CategoriesProvider{
   Future init(BuildContext context) async {
     this.context = context;
   }
+  Future <List<Categori>> getAll() async{
+    try{
+      Uri url = Uri.http(_url, '$_api/getAll');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      print('Antes del decode,body de la respuesta');
+      print(res.body);
+      print('///////////////////////////');
+      final data = json.decode(res.body);
+      print('///////////////////////////');
+      print('Despues del decode,printeando data desde el decode');
+      print(data);
+      Categori categori = Categori.fromJsonList(data);
+      print(categori.toList);
+      return categori.toList;
+ 
+    }catch(e){
 
+      print(e);
+      print(e.stackTrace);
+      return [];
+    }
+  }
   Future<ResponseApi> create(Categori category) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');

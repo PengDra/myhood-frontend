@@ -9,12 +9,21 @@ class StoreProductsCreateController {
   Function refresh;
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
   CategoriesProvider _categoriesProvider = new CategoriesProvider();
-
+  List<Categori> categories = [];
+  String idCategory;
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     _categoriesProvider.init(context);
+    getCategories();
+    
+  }
+  void getCategories()async{
+    
+    categories = await _categoriesProvider.getAll();
+    refresh();
   }
   void createProduct() async {
     String name =nameController.text;
