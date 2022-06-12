@@ -60,6 +60,8 @@ class _RolesPageState extends State<RolesPage> {
           Text(rol.name??'', 
           style: TextStyle(
             fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
             color: Colors.black
             ),),
     

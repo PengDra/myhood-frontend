@@ -24,8 +24,9 @@ class _StoreOrderListPageState extends State<StoreOrderListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: _drawer(),
       appBar: AppBar(
-        leading: _menuDrawer(),
+        //leading: _menuDrawer(),
       ),
       body: Center(
         child: Text('StoreOrderListPage'),
@@ -88,15 +89,24 @@ class _StoreOrderListPageState extends State<StoreOrderListPage> {
             ]),
           ),
           //Si el usuario no es null entonces (?)
-            _con.user !=null?
-            //Si el usuario tiene mas de un rol entonces (?)
-            _con.user.roles.length > 1?
-            ListTile(
-              onTap: _con.goToRoles,
-              title:Text('Seleccionar Rol'),
-              trailing: Icon(Icons.person_outline),
-            ):Container():Container(),
-            //Los : equivalen al else del if (?)
+          _con.user != null
+              ?
+              //Si el usuario tiene mas de un rol entonces (?)
+              _con.user.roles.length > 1
+                  ? ListTile(
+                      onTap: _con.goToRoles,
+                      title: Text('Seleccionar Rol'),
+                      trailing: Icon(Icons.person_outline),
+                    )
+                  : Container()
+              : Container(),
+          //Los : equivalen al else del if (?)
+          ListTile(
+            onTap: _con.goToCategoryCreate,
+            title: Text('Crear Categoria'),
+            trailing: Icon(Icons.list_alt),
+          ),
+
           ListTile(
             onTap: _con.logout,
             title: Text('Cerrar Sesión'),

@@ -18,6 +18,9 @@ class StoreOrdersListController{
   void logout(){
     _sharedPref.logout(context);
   }
+  void goToCategoryCreate(){
+    Navigator.pushNamed(context, 'store/categories/create');
+  }
   void openDrawer(){
     key.currentState.openDrawer();
 
