@@ -45,9 +45,9 @@ class _StoreProductsCreatePageState extends State<StoreProductsCreatePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _cardImage(null, 1),
-              _cardImage(null, 2),
-              _cardImage(null, 3)
+              _cardImage(_con.imageFile1, 1),
+              _cardImage(_con.imageFile2, 2),
+              _cardImage(_con.imageFile3, 3)
             ],
           ),
         ),
@@ -154,20 +154,29 @@ class _StoreProductsCreatePageState extends State<StoreProductsCreatePage> {
   }
 
   Widget _cardImage(File imageFile, int numberfile) {
-    return imageFile != null
-        ? Card(
-            elevation: 3.0,
-            child: Container(
-              height: 140,
-              width: MediaQuery.of(context).size.width * 0.26,
-              child: Image.file(imageFile, fit: BoxFit.cover),
-            ))
-        : Card(
-            elevation: 3.0,
-            child: Container(
+    return GestureDetector(
+      onTap: (() {
+        _con..showAlertDialog(numberfile);
+      }),
+      child: imageFile != null
+          ? Card(
+              elevation: 3.0,
+              child: Container(
                 height: 140,
                 width: MediaQuery.of(context).size.width * 0.26,
-                child: Image(image: AssetImage('assets/img/add_image.png'))));
+                child: Image.file(imageFile, fit: BoxFit.cover),
+              ))
+          : Card(
+              elevation: 3.0,
+              child: Container(
+                  height: 140,
+                  width: MediaQuery.of(context).size.width * 0.26,
+                  child: Image(image: AssetImage('assets/img/add_image.png'),
+                  )
+                )
+              ),
+    );
+    
   }
 
   Widget _textFieldPrice() {
