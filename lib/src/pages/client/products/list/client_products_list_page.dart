@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:myhood/src/models/categori.dart';
+import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/pages/client/products/list/clients_products_list_controllers.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 
@@ -60,18 +61,25 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                 })),
           ),
         ),
-        body: Center(
-            child: TabBarView(
-          children: _con.categories.map((Categori) {
-            return GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7,
-
-                children: List.generate(4, ((index) {
-                  return _cardProduct();
-                })));
+        body: TabBarView(
+          children: _con.categories.map((Categori categori) {
+            return FutureBuilder(
+              future: _con.getProducts(categori.id),
+              builder: (context,AsyncSnapshot<List<Product>> snapshot){
+              return GridView.builder(
+                gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.7
+                ),
+                itemCount: snapshot.data?.length ?? 0,
+                itemBuilder:(_,index){
+                  return _cardProduct(snapshot.data[index]);
+                }
+              );
+             }
+            );
           }).toList(),
-        )),
+        ),
       ),
     );
   }
@@ -141,8 +149,9 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
     );
   }
 
-  Widget _cardProduct() {
+  Widget _cardProduct(Product product) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal:10),
       height: 250,
       child: Card(
         elevation: 3,
@@ -176,7 +185,9 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: EdgeInsets.all(20),
                 child: FadeInImage(
-                  image: AssetImage('assets/img/no-image.png'),
+                  image:product.image1 !=null ?
+                  NetworkImage(product.image1):
+                  AssetImage('assets/img/no-image.png'),
                   fit: BoxFit.contain,
                   placeholder: AssetImage('assets/img/no-image.png'),
                 ),
@@ -185,7 +196,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 height: 33,
                 child: Text(
-                  'Nombre del producto',
+                  product.name ?? 
+                  '',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -197,7 +209,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20,vertical:20 ),
                 child: Text(
-                  '\$100',
+                  '${product.price ?? ''}',
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ),

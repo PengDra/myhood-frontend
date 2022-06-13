@@ -50,7 +50,29 @@ class ProductsProvider{
       print('Error: '+e);
       return null;
     }
+  }
+   Future <List<Product>> getByCategory(String idCategory) async{
+    try{
+      Uri url = Uri.http(_url, '$_api/findByCategory/$idCategory');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      print('Antes del decode,body de la respuesta');
+      print(res.body);
+      print('///////////////////////////');
+      final data = json.decode(res.body);
+      print('///////////////////////////');
+      print('Despues del decode,printeando data desde el decode');
+      print(data);
+      Product product = Product.fromJsonList(data);
+      print(product.toList);
+      return product.toList;
+ 
+    }catch(e){
 
+      print(e);
+      print(e.stackTrace);
+      return [];
+    }
   }
 
 

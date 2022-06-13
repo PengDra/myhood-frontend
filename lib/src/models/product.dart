@@ -15,6 +15,7 @@ class Product {
     int price;
     int idCategory;
     int cuantity;
+    List<Product> toList =[];
     
     Product({
         this.id,
@@ -37,8 +38,8 @@ class Product {
         image1: json["image1"],
         image2: json["image2"],
         image3: json["image3"],
-        price: json["price"],
-        idCategory: json["id_category"],
+        price: json["price"] is String ? int.parse(json["price"] ) : json["price"],
+        idCategory: json["id_category"] is String ? int.parse(json["id_category"] ) : json["id_category"],
         cuantity: json["cuantity"],
     );
 
@@ -53,4 +54,12 @@ class Product {
         "id_category": idCategory,
         "cuantity": cuantity,
     };
+    Product.fromJsonList(List<dynamic> jsonList) {
+        if (jsonList == null) return;
+        jsonList.forEach((element) {
+          print(element);
+          Product product = Product.fromJson(element);
+          toList.add(product);
+        });
+    }
 }
