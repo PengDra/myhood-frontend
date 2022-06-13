@@ -7,6 +7,7 @@ import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/pages/client/products/list/clients_products_list_controllers.dart';
 import 'package:myhood/src/utils/my_colors.dart';
+import 'package:myhood/src/widgets/no_data_widget.dart';
 
 class ClientProductsListPage extends StatefulWidget {
   const ClientProductsListPage({Key key}) : super(key: key);
@@ -64,20 +65,25 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
         body: TabBarView(
           children: _con.categories.map((Categori categori) {
             return FutureBuilder(
-              future: _con.getProducts(categori.id),
-              builder: (context,AsyncSnapshot<List<Product>> snapshot){
-              return GridView.builder(
-                gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7
-                ),
-                itemCount: snapshot.data?.length ?? 0,
-                itemBuilder:(_,index){
-                  return _cardProduct(snapshot.data[index]);
-                }
-              );
-             }
-            );
+                future: _con.getProducts(categori.id),
+                builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data.length > 0) {
+                      return GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 0.7),
+                          itemCount: snapshot.data?.length ?? 0,
+                          itemBuilder: (_, index) {
+                            return _cardProduct(snapshot.data[index]);
+                          });
+                    } else {
+                      return NoDataWidget(text: 'No hay productos');
+                    }
+                  } else {
+                    return NoDataWidget(text: 'No hay productos');
+                  }
+                });
           }).toList(),
         ),
       ),
@@ -150,71 +156,76 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   }
 
   Widget _cardProduct(Product product) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal:10),
-      height: 250,
-      child: Card(
-        elevation: 3,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-                top: -1.0,
-                left: -1.0,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: MyColors.primary,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(15),
+    return GestureDetector(
+      onTap:(){
+        _con.openBottomSheet(product);
+
+      } ,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        height: 250,
+        child: Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                  top: -1.0,
+                  left: -1.0,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: MyColors.primary,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(15),
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                  )),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Container(
+                  height: 150,
+                  margin: EdgeInsets.only(top: 20),
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  padding: EdgeInsets.all(20),
+                  child: FadeInImage(
+                    image: product.image1 != null
+                        ? NetworkImage(product.image1)
+                        : AssetImage('assets/img/no-image.png'),
+                    fit: BoxFit.contain,
+                    placeholder: AssetImage('assets/img/no-image.png'),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  height: 33,
+                  child: Text(
+                    product.name ?? '',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 15,
                     ),
                   ),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                )),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                height: 150,
-                margin: EdgeInsets.only(top: 20),
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: EdgeInsets.all(20),
-                child: FadeInImage(
-                  image:product.image1 !=null ?
-                  NetworkImage(product.image1):
-                  AssetImage('assets/img/no-image.png'),
-                  fit: BoxFit.contain,
-                  placeholder: AssetImage('assets/img/no-image.png'),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                height: 33,
-                child: Text(
-                  product.name ?? 
-                  '',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 15,
+                Spacer(),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    '${product.price ?? ''}',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),
-              Spacer(),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20,vertical:20 ),
-                child: Text(
-                  '${product.price ?? ''}',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ])
-          ],
+              ])
+            ],
+          ),
         ),
       ),
     );
