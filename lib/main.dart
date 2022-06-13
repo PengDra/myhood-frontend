@@ -41,8 +41,10 @@ class _MyAppState extends State<MyApp> {
       },
       theme: ThemeData(
         primaryColor: MyColors.primary,
-      ),
-      
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          ),
+        ),
     );
   }
 }
