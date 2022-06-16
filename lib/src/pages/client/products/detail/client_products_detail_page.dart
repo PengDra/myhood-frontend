@@ -81,9 +81,9 @@ class _ClientProductsDetailPageState extends State<ClientProductsDetailPage> {
           color: Colors.grey,
           size: 30,
           ),
-          onPressed: (){},
+          onPressed: _con.addItem,
         ),
-        Text('1',
+        Text('${_con.counter}',
         style: TextStyle(
           fontSize: 17,
           fontWeight: FontWeight.bold,
@@ -95,11 +95,11 @@ class _ClientProductsDetailPageState extends State<ClientProductsDetailPage> {
           color: Colors.grey,
           size: 30,
           ),
-          onPressed: (){},
+          onPressed: _con.removeItem,
         ),
         Spacer(),
         Container(
-          child:Text('${_con.product?.price ?? 0.0}',
+          child:Text('${_con.productPrice ?? 0.0}',
           style: TextStyle(
             fontSize: 19,
             fontWeight: FontWeight.bold,
@@ -133,21 +133,21 @@ class _ClientProductsDetailPageState extends State<ClientProductsDetailPage> {
               image: _con.product?.image1 != null
                   ? NetworkImage(_con.product.image1)
                   : AssetImage('assets/img/no-image.png'),
-              fit: BoxFit.contain,
+              fit: BoxFit.fill,
               placeholder: AssetImage('assets/img/no-image.png'),
             ),
             FadeInImage(
               image: _con.product?.image2 != null
                   ? NetworkImage(_con.product.image2)
                   : AssetImage('assets/img/no-image.png'),
-              fit: BoxFit.contain,
+              fit: BoxFit.fill,
               placeholder: AssetImage('assets/img/no-image.png'),
             ),
             FadeInImage(
               image: _con.product?.image3 != null
                   ? NetworkImage(_con.product.image3)
                   : AssetImage('assets/img/no-image.png'),
-              fit: BoxFit.contain,
+              fit: BoxFit.fill,
               placeholder: AssetImage('assets/img/no-image.png'),
             ),
           ],
@@ -160,7 +160,7 @@ class _ClientProductsDetailPageState extends State<ClientProductsDetailPage> {
             color: MyColors.primary,
             size: 30,
             ),
-            onPressed: (){},
+            onPressed: _con.close,
           ),
           ),
       ],
@@ -188,7 +188,7 @@ class _ClientProductsDetailPageState extends State<ClientProductsDetailPage> {
   Widget _buttonShoppingBag(){
     return Container(margin: EdgeInsets.only(left: 30, right: 30, top: 20,bottom: 30),
       child: ElevatedButton(
-        onPressed:(){},
+        onPressed:_con.addToBag,
         style: ElevatedButton.styleFrom(
           primary: MyColors.primary,
           padding: EdgeInsets.symmetric(vertical: 5)

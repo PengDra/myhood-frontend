@@ -135,23 +135,26 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   }
 
   Widget _shopingBag() {
-    return Stack(
-      children: [
-        Container(
-            margin: EdgeInsets.only(right: 20, top: 13),
-            child: Icon(Icons.shopping_bag_outlined, color: Colors.black)),
-        Positioned(
-            right: 16,
-            top: 15,
-            child: Container(
-              width: 9,
-              height: 9,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ))
-      ],
+    return GestureDetector(
+      onTap:_con.goToOrderCreatePage,
+      child: Stack(
+        children: [
+          Container(
+              margin: EdgeInsets.only(right: 20, top: 13),
+              child: Icon(Icons.shopping_bag_outlined, color: Colors.black)),
+          Positioned(
+              right: 16,
+              top: 15,
+              child: Container(
+                width: 9,
+                height: 9,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ))
+        ],
+      ),
     );
   }
 
