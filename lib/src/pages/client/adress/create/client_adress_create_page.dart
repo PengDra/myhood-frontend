@@ -75,7 +75,7 @@ class _ClientAdressCreatePageState extends State<ClientAdressCreatePage> {
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: TextField(
-        
+        controller: _con.neighborhoodController,
         decoration: InputDecoration(
           suffixIcon: Icon(Icons.location_city),       
           labelText: 'Vecindario',
@@ -96,6 +96,7 @@ class _ClientAdressCreatePageState extends State<ClientAdressCreatePage> {
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: TextField(
+        controller: _con.addressController,
         decoration: InputDecoration(
           suffixIcon: Icon(Icons.location_on),
           labelText: 'Direccion',
@@ -131,8 +132,8 @@ class _ClientAdressCreatePageState extends State<ClientAdressCreatePage> {
       margin: EdgeInsets.symmetric(vertical: 30,horizontal: 50),
       child: ElevatedButton(
         child: Text('Crear Direccion', style: TextStyle(color: Colors.white),),
-        onPressed: (){
-        },
+        onPressed:_con.createAddress,
+        
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30)
