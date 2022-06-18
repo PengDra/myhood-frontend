@@ -22,6 +22,7 @@ class Address {
     String neighborhood;
     double lat;
     double lng;
+    List<Address> toList = [];
 
 
     factory Address.fromJson(Map<String, dynamic> json) => Address(
@@ -41,4 +42,12 @@ class Address {
         "lat": lat,
         "lng": lng,
     };
+    Address.fromJsonList(List<dynamic> jsonList) {
+        if (jsonList == null) return;
+        jsonList.forEach((element) {
+          print(element);
+         Address categori = Address.fromJson(element);
+          toList.add(categori);
+        });
+    }
 }

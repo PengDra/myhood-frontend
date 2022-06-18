@@ -10,6 +10,8 @@ import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
 class ClientAdressCreateController {
+
+
   BuildContext context;
   Function refresh;
 
@@ -26,6 +28,7 @@ class ClientAdressCreateController {
     this.refresh = refresh;
     user= User.fromJson(await _sharedPref.read('user'));
     _addressProvider.init(context);
+    refresh();
   }
 
   void openMap() async {
@@ -63,8 +66,11 @@ class ClientAdressCreateController {
 
     ResponseApi response = await _addressProvider.create(address);
     if (response.success) {
+      address = response.data;
+      _sharedPref.save('address', address);
       Fluttertoast.showToast(msg: response.message);
+      Navigator.pop(context,true);
     }
-    Navigator.pop(context);
+    
   }
 }

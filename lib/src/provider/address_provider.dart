@@ -17,10 +17,10 @@ class AddressProvider{
   Future init(BuildContext context) async {
     this.context = context;
   }
-  /*
-  Future <List<Categori>> getAll() async{
+
+  Future <List<Address>> getByUser(String idUser) async{
     try{
-      Uri url = Uri.http(_url, '$_api/getAll');
+      Uri url = Uri.http(_url, '$_api/findByUser/$idUser');
       Map<String, String> headers = {'Content-Type': 'application/json'};
       final res = await http.get(url, headers: headers);
       print('Antes del decode,body de la respuesta');
@@ -30,7 +30,7 @@ class AddressProvider{
       print('///////////////////////////');
       print('Despues del decode,printeando data desde el decode');
       print(data);
-      Categori categori = Categori.fromJsonList(data);
+      Address categori = Address.fromJsonList(data);
       print(categori.toList);
       return categori.toList;
  
@@ -41,7 +41,7 @@ class AddressProvider{
       return [];
     }
   }
-  */
+
   Future<ResponseApi> create(Address address) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
