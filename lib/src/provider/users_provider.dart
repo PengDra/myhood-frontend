@@ -115,9 +115,10 @@ class UsersProvider {
       final res = await http.post(url, headers: headers, body: bodyParams);
       final data = json.decode(res.body);
       ResponseApi responseApi = ResponseApi.fromJson(data);
+      print(responseApi);
       return responseApi;
     } catch (e) {
-      print('Exception create: $e');
+      print('Exception login: $e');
       return null;
     }
   }

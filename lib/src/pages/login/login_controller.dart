@@ -48,6 +48,7 @@ class LoginController {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
     ResponseApi responseApi = await usersProvider.login(email, password);
+    
     if(responseApi.success){
       //Si logra hacer login guarda el token en el shared preferences
       User user = User.fromJson(responseApi.data);

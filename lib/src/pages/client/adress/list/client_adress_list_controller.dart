@@ -13,7 +13,7 @@ class ClientAdressListController {
 
   }
   void goToNewAdress(){
-    Navigator.pushNamed(context, 'client_adress_create');
+    Navigator.pushNamed(context, 'client/adress/create');
   }
 
 }

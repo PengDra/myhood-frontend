@@ -62,8 +62,7 @@ class _ClientAdressListPageState extends State<ClientAdressListPage> {
       margin: EdgeInsets.symmetric(vertical: 30,horizontal: 50),
       child: ElevatedButton(
         child: Text('Nueva Direccion', style: TextStyle(color: Colors.white),),
-        onPressed: (){
-        },
+        onPressed: _con.goToNewAdress,
         style: ElevatedButton.styleFrom(
           primary: MyColors.primary
         )
