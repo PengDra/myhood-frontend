@@ -143,7 +143,7 @@ class _ClientAdressListPageState extends State<ClientAdressListPage> {
             'Aceptar',
             style: TextStyle(color: Colors.white),
           ),
-          onPressed: () {},
+          onPressed:_con.createOrder,
           style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
