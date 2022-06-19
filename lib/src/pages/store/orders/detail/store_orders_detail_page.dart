@@ -8,6 +8,7 @@ import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/pages/client/orders/create/client_orders_create_controller.dart';
 import 'package:myhood/src/pages/store/orders/detail/store_orders_detail_controller.dart';
 import 'package:myhood/src/utils/my_colors.dart';
+import 'package:myhood/src/utils/relative_time_util.dart';
 import 'package:myhood/src/widgets/no_data_widget.dart';
 
 class StoreOrdersDetailPage extends StatefulWidget {
@@ -68,7 +69,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
                  
                   _textData('Entregar en : ','${_con.order.address.address}'),
                  
-                  _textData('Fecha de Pedido :','${_con.order.timestamp}'),
+                  _textData('Fecha de Pedido :','${RelativeTimeUtil.getRelativeTime(_con.order.timestamp??0)}'),
                   
                   //_textTotalPrice(),
                   _buttonNext()
@@ -106,7 +107,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(height: 5),
               Text('Cantidad: ${product.cuantity}' ?? '',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 13, )),
             ],
           ),
         ]));
@@ -187,23 +188,12 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
         );
   }
 
-  Widget _textTotalPrice() {
-    return Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Row(children: [
-          Text('Total:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          Spacer(),
-          Text('${_con.total}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
-        ]));
-  }
-
+ 
   Widget _imageProduct(Product product) {
     return Container(
-      width: 90,
-      height: 90,
-      padding: EdgeInsets.all(10),
+      width: 50,
+      height: 50,
+      padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey[200],
