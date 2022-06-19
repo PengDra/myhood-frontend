@@ -32,7 +32,7 @@ class Product {
     
 
     factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
+        id: json["id"]is int ? json["id"].toString() : json["id"],
         name: json["name"],
         description: json["description"],
         image1: json["image1"],
