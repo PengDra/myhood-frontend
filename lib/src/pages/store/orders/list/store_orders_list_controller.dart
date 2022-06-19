@@ -11,10 +11,12 @@ class StoreOrdersListController{
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   Function refresh;
-  User user;
+  User user =new User();
 
   List<String>status= ['PAGADO','DESPACHADO','EN CAMINO', 'ENTREGADO'];
   OrdersProvider _ordersProvider = new OrdersProvider();
+
+  bool isUpdated = false;
 
   Future init(BuildContext context, Function refresh)async{
     this.context = context;  
@@ -28,9 +30,11 @@ class StoreOrdersListController{
     return await _ordersProvider.getByStatus(status);
   }
 
-  void openBottomSheet(Order order){
-    showMaterialModalBottomSheet(context: context, builder: (context)=>StoreOrdersDetailPage(order: order ));
-
+  void openBottomSheet(Order order)async{
+    isUpdated = await showMaterialModalBottomSheet(context: context, builder: (context)=>StoreOrdersDetailPage(order: order ));
+    if(isUpdated){
+      refresh();
+    }
   }
   void logout(){
     _sharedPref.logout(context);
@@ -43,7 +47,6 @@ class StoreOrdersListController{
   }
   void openDrawer(){
     key.currentState.openDrawer();
-
   }
   void goToRoles(){
     Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);

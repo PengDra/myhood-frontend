@@ -64,14 +64,15 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
                     indent: 30,
                   ),
                   _textDescription(),
-                  _dropdown([]),
+                  _con.order.status!='PAGADO'? _deliveryData():Container(),
+                  _con.order.status=='PAGADO'? _dropdown(_con.users):Container(),
                   _textData('Cliente :  ', '${_con.order.client.name} ${_con.order.client.lastname}'),
                  
                   _textData('Entregar en : ','${_con.order.address.address}'),
                  
                   _textData('Fecha de Pedido :','${RelativeTimeUtil.getRelativeTime(_con.order.timestamp??0)}'),
                   
-                  //_textTotalPrice(),
+                 
                   _buttonNext()
                 ],
               ),
@@ -83,7 +84,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(left: 30,),
       child: Text(
-        'Asignar Repartidor',
+        _con.order.status == 'PAGADO'? 'Asignar Repartidor':'Repartidor Asignado:',
         style: TextStyle(
           fontSize: 20,
           fontStyle: FontStyle.italic,
@@ -143,11 +144,11 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
                       fontWeight: FontWeight.bold),
                 ),
                 items: _dropDownItems(users),
-                //value: _con.idCategory,
+                value: _con.idDelivery,
                 onChanged: (option){
                   setState(() {
                     print('Usuario Seleccionado: $option');
-                    //_con.idCategory = option;
+                    _con.idDelivery = option;
                   });
                 },
               ),
@@ -157,14 +158,54 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
       ),
     );
   }
-
+  Widget _deliveryData(){
+    return  Container(
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      child: Row(
+            children: [
+              Container(
+                  height: 40,
+                  width: 40,
+                  child: FadeInImage(
+                    image: _con.order.delivery?.image != null
+                        ? NetworkImage(_con.user?.image)
+                        : AssetImage('assets/img/no-image.png'),
+                    fit: BoxFit.cover,
+                    fadeInDuration: Duration(milliseconds: 50),
+                    placeholder: AssetImage('assets/img/no-image.png'),
+                  ),
+                ),
+                SizedBox(width: 5),
+              Text('${_con.order.delivery?.name??''} ${_con.order.delivery?.lastname??''}',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ],
+          ),
+    );
+  }
   List<DropdownMenuItem<String>>_dropDownItems(List<User>users){
     List<DropdownMenuItem<String>> list =[];
 
     users.forEach((user) {
       
       list.add(DropdownMenuItem(
-        child: Text(user.name),
+        child: Row(
+          children: [
+            Container(
+                height: 40,
+                width: 40,
+                child: FadeInImage(
+                  image: _con.user?.image != null
+                      ? NetworkImage(_con.user?.image)
+                      : AssetImage('assets/img/no-image.png'),
+                  fit: BoxFit.cover,
+                  fadeInDuration: Duration(milliseconds: 50),
+                  placeholder: AssetImage('assets/img/no-image.png'),
+                ),
+              ),
+              SizedBox(width: 5),
+            Text(user.name),
+          ],
+        ),
         value: user.id,
       ));
     });
@@ -212,7 +253,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
     return Container(
         margin: EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 10),
         child: ElevatedButton(
-            onPressed: () {},
+            onPressed: _con.updateOrder,
             style: ElevatedButton.styleFrom(
                 primary: MyColors.primary,
                 padding: EdgeInsets.symmetric(vertical: 5)),

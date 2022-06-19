@@ -30,6 +30,20 @@ class OrdersProvider{
       return null;
     }
   }
+  Future<ResponseApi> updateToDispatched(Order order) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/updateToDispatched');
+      String bodyParams = jsonEncode(order);
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.put(url, headers: headers, body: bodyParams);
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Exception create: $e');
+      return null;
+    }
+  }
   Future <List<Order>> getByStatus(String status) async{
     try{
       Uri url = Uri.http(_url, '$_api/findByStatus/$status');

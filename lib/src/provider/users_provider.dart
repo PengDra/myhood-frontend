@@ -32,6 +32,22 @@ class UsersProvider {
     
     
   }
+  Future<List<User>> getDeliveryMan() async {
+    try{
+      Uri url = Uri.http(_url, '$_api/findDeliveryMan');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      print(res.body);
+      final data = json.decode(res.body);
+      User user = User.fromJsonList(data);
+      return user.toList;
+    }catch(e){
+      print(e);
+      return null;
+    }
+    
+    
+  }
   Future<Stream>createWithImage(User user,File image)async{
     try{
       print(user.toString());

@@ -20,6 +20,7 @@ class User {
     String password;
     String sessionToken;
     List<Rol> roles =[];
+    List<User> toList=[];
 
 
     User({
@@ -64,4 +65,12 @@ class User {
         "session_token": sessionToken,
         "roles": roles
     };
+    User.fromJsonList(List<dynamic> jsonList) {
+        if (jsonList == null) return;
+        jsonList.forEach((element) {
+          print(element);
+          User user= User.fromJson(element);
+          toList.add(user);
+        });
+    }
 }

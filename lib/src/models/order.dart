@@ -21,6 +21,7 @@ class Order {
     List<Product> products = [];
     List<Order> toList = [];
     User client= new User();
+    User delivery = new User();
     Address address= new Address();
     
 
@@ -36,6 +37,7 @@ class Order {
         this.timestamp,
         this.products,
         this.client,
+        this.delivery,
         this.address,
     });
 
@@ -53,6 +55,7 @@ class Order {
         //No entiendo bien como funciona esta linea, pero lo que devuelve una lista desde el mapa desde el modelo y si viene null entrega una lista vacia
         products: json["products"]!=null? List<Product>.from(json["products"].map((model) => Product.fromJson(model)))??[]:[],
         client: json["client"]is String ? userFromJson( json["client"]):User.fromJson(json["client"])??{},
+        delivery: json["delivery"]is String ? userFromJson( json["delivery"]):User.fromJson(json["delivery"])??{},
         address: json["address"]is String ? addressFromJson( json["address"]):Address.fromJson(json["address"])??{},
     
     
@@ -69,6 +72,7 @@ class Order {
         "timestamp": timestamp,
         "products": products,
         "client": client,
+        "delivery": delivery,
         "address": address,
     };
     Order.fromJsonList(List<dynamic> jsonList) {
