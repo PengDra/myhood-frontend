@@ -71,7 +71,7 @@ class _DeliveryOrdersDetailPageState extends State<DeliveryOrdersDetailPage> {
                   _textData('Entregar en : ','${_con.order.address.address}'),
                  
                   _textData('Fecha de Pedido :','${RelativeTimeUtil.getRelativeTime(_con.order.timestamp??0)}'),                 
-                   _buttonNext()
+                  _con.order?.status!='ENTREGADO' ? _buttonNext():Container(),
                 ],
               ),
             )));
@@ -95,12 +95,6 @@ class _DeliveryOrdersDetailPageState extends State<DeliveryOrdersDetailPage> {
           ),
         ]));
   }
-
-  
- 
-  
-
-  
 
   Widget _textData(String title, String content) {
     return Container(
@@ -142,7 +136,7 @@ class _DeliveryOrdersDetailPageState extends State<DeliveryOrdersDetailPage> {
         child: ElevatedButton(
             onPressed: _con.updateOrder,
             style: ElevatedButton.styleFrom(
-                primary: MyColors.primary,
+                primary: _con.order?.status=='DESPACHADO'? MyColors.primary: Colors.green,
                 padding: EdgeInsets.symmetric(vertical: 5)),
             child: Stack(
               children: [
@@ -153,7 +147,7 @@ class _DeliveryOrdersDetailPageState extends State<DeliveryOrdersDetailPage> {
                     height: 40,
                     alignment: Alignment.center,
                     child: Text(
-                      'Iniciar Entrega',
+                      _con.order?.status=='DESPACHADO'?'INICIAR ENTREGA':'IR AL MAPA',
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,

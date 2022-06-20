@@ -32,6 +32,7 @@ class DeliveryOrdersListController{
   }
 
   void openBottomSheet(Order order)async{
+    print(order.toString());
     isUpdated = await showMaterialModalBottomSheet(context: context, builder: (context)=>DeliveryOrdersDetailPage(order: order ));
     if(isUpdated){
       refresh();

@@ -57,9 +57,8 @@ class _DeliveryOrderListPageState extends State<DeliveryOrderListPage> {
                 future: _con.getOrders(status),
                 builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.length > 0) {
+                    if (snapshot.data?.length > 0) {
                       return ListView.builder(
-                         
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
                             return _cardOrder(snapshot.data[index]);
@@ -113,40 +112,35 @@ class _DeliveryOrderListPageState extends State<DeliveryOrderListPage> {
                 ),
               ),
               Container(
-                
-              margin: EdgeInsets.only(top:40,left: 20,right:20),
+                margin: EdgeInsets.only(top: 40, left: 20, right: 20),
                 child: Column(children: [
                   Container(
-                    margin: EdgeInsets.symmetric(vertical:5),
+                    margin: EdgeInsets.symmetric(vertical: 5),
                     alignment: Alignment.centerLeft,
-                      width: double.infinity,
+                    width: double.infinity,
                     child: Text('Pedido',
-                     
-                        style:
-                            TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.bold)),
                   ),
-                   Container(
-                    
+                  Container(
                     alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.symmetric(vertical:5),
-                      width: double.infinity,
-                     child: Text('${order.client?.name??''} ${order.client?.lastname??''}',
-                      
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    width: double.infinity,
+                    child: Text(
+                        '${order.client?.name ?? ''} ${order.client?.lastname ?? ''}',
                         maxLines: 1,
-                        style:
-                            TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
-                   ),
-                    
-                     Container(
-                      margin: EdgeInsets.symmetric(vertical:5),
-                      alignment: Alignment.centerLeft,
-                      width: double.infinity,
-                      child: Text('Entregar en: ${order.address.address??''}',
-                      
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.bold)),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    alignment: Alignment.centerLeft,
+                    width: double.infinity,
+                    child: Text('Entregar en: ${order.address.address ?? ''}',
                         maxLines: 2,
-                        style:
-                            TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
-                    ),
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.bold)),
+                  ),
                 ]),
               ),
             ],
@@ -225,7 +219,7 @@ class _DeliveryOrderListPageState extends State<DeliveryOrderListPage> {
           _con.user != null
               ?
               //Si el usuario tiene mas de un rol entonces (?)
-              _con.user?.roles.length > 1
+              _con.user?.roles?.length > 1
                   ? ListTile(
                       onTap: _con.goToRoles,
                       title: Text('Seleccionar Rol'),

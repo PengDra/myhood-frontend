@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,6 +7,12 @@ import 'package:location/location.dart' as location;
 import 'dart:async';
 
 import 'package:myhood/src/models/order.dart';
+import 'package:myhood/src/models/response_api.dart';
+import 'package:myhood/src/models/user.dart';
+import 'package:myhood/src/provider/orders_provider.dart';
+import 'package:myhood/src/utils/my_snackbar.dart';
+import 'package:myhood/src/utils/shared_pref.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DeliveryOrdersMapController {
 
@@ -20,7 +27,15 @@ class DeliveryOrdersMapController {
   BitmapDescriptor homeMarker;
   Map<MarkerId, Marker> markers =<MarkerId, Marker> {};
 
+  StreamSubscription _positionStream;
+
+  User user ;
   Order order = new Order();
+
+  OrdersProvider _ordersProvider = OrdersProvider();
+  SharedPref sharedPref = SharedPref();
+
+  double _distanceBetween;
 
 
 
@@ -36,11 +51,36 @@ class DeliveryOrdersMapController {
 
     this.context = context;
     this.refresh = refresh;
+    _ordersProvider.init(context);
     order =Order.fromJson(ModalRoute.of(context).settings.arguments as Map<String,dynamic>);
+    user =  User.fromJson( await sharedPref.read('user'));
     deliveryMarker = await createMarkerfromAsset('assets/img/scooter_azul_100x100.png',);
     homeMarker = await createMarkerfromAsset('assets/img/home.png',);
     checkGPS();
+    refresh();
   }
+  void updateToDelivered()async{
+    if(_distanceBetween <= 100){
+      ResponseApi responseApi = await _ordersProvider.updateToDelivered(order);
+      if(responseApi.success){
+        //Fluttertoast.showToast(msg:'Orden entregada ',toastLength: Toast.LENGTH_LONG);
+        Navigator.pushNamedAndRemoveUntil(context,'delivery/orders/list', (route) => false);
+
+      }
+    }else{
+      MySnackbar.show(context,"Debes estar mas cerca del lugar de entrega");
+    }
+
+  }
+
+  void isCloseToDeliveryPosition(){
+    _distanceBetween = Geolocator.distanceBetween(
+      _position.latitude,
+      _position.longitude,
+      order.address.lat,
+      order.address.lng);
+  }
+  
 
   //agrega el marcador al mapa
   void addMarker(String markerId, double lat, double lng,String title, String content, BitmapDescriptor iconMarker){
@@ -58,7 +98,9 @@ class DeliveryOrdersMapController {
     BitmapDescriptor descriptor = await BitmapDescriptor.fromAssetImage(configuration,path );
     return descriptor;
   }
-
+  void call(){
+    launch("tel://${order.client.phone}");
+  }
 
   //Enviar informacion a la pantalla anterior
   
@@ -90,13 +132,27 @@ class DeliveryOrdersMapController {
       //Agrega el marcador del delivery(Moto)     
       addMarker('delivery',_position.latitude, _position.longitude,'Tu Posicion','',deliveryMarker);//Agrega el marcador
       addMarker('home',order.address.lat, order.address.lng,'Lugar de entrega','',homeMarker);
-      
+      //Determina posicion en tiempo real del repartidor
+      _positionStream = Geolocator.getPositionStream(
+        desiredAccuracy: LocationAccuracy.medium,
+        distanceFilter: 1
+      ).listen((Position position) {
+        _position = position;
+        addMarker('delivery',_position.latitude, _position.longitude,'Tu Posicion','',deliveryMarker);
+        animateCameraToPosition(_position.latitude, _position.longitude);
+        isCloseToDeliveryPosition();
+        refresh();
+       });
+
+
 
     }catch(e){
       print("Error :"+e);
     }
+  } 
+  void dispose(){
+    _positionStream?.cancel();
   }
-
 
   //Animar la camara
   Future animateCameraToPosition(double lat, double long)async{
@@ -184,6 +240,42 @@ class DeliveryOrdersMapController {
   // continue accessing the position of the device.
   return await Geolocator.getCurrentPosition();
 }
+
+
+
+
+void launchWaze() async {
+    var url = 'waze://?ll=${order.address.lat.toString()},${order.address.lng.toString()}';
+    var fallbackUrl =
+        'https://waze.com/ul?ll=${order.address.lat.toString()},${order.address.lng.toString()}&navigate=yes';
+    try {
+      bool launched =
+      await launch(url, forceSafariVC: false, forceWebView: false);
+      if (!launched) {
+        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+      }
+    } catch (e) {
+      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+    }
+  }
+
+
+
+
+  void launchGoogleMaps() async {
+    var url = 'google.navigation:q=${order.address.lat.toString()},${order.address.lng.toString()}';
+    var fallbackUrl =
+        'https://www.google.com/maps/search/?api=1&query=${order.address.lat.toString()},${order.address.lng.toString()}';
+    try {
+      bool launched =
+      await launch(url, forceSafariVC: false, forceWebView: false);
+      if (!launched) {
+        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+      }
+    } catch (e) {
+      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+    }
+  }
 
 
 }
