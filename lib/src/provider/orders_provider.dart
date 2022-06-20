@@ -95,6 +95,29 @@ class OrdersProvider{
       return [];
     }
   }
+  Future <List<Order>> getByClientAndStatus(String idClient,String status) async{
+    try{
+      Uri url = Uri.http(_url, '$_api/findByClientAndStatus/$idClient/$status');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      print('Antes del decode,body de la respuesta');
+      print(res.body);
+      print('///////////////////////////');
+      final data = json.decode(res.body);
+      print('///////////////////////////');
+      print('Despues del decode,printeando data desde el decode');
+      print(data);
+      Order order = Order.fromJsonList(data);
+      print(order.toList);
+      return order.toList;
+ 
+    }catch(e){
+
+      print(e);
+      print(e.stackTrace);
+      return [];
+    }
+  }
   Future <List<Order>> getByStatus(String status) async{
     try{
       Uri url = Uri.http(_url, '$_api/findByStatus/$status');
