@@ -5,6 +5,7 @@ import 'package:myhood/src/pages/client/adress/map/client_adress_map_page.dart';
 import 'package:myhood/src/pages/client/orders/create/client_orders_create_page.dart';
 import 'package:myhood/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:myhood/src/pages/client/update/client_update_page.dart';
+import 'package:myhood/src/pages/delivery/orders/map/delivery_orders_map_page.dart';
 import 'package:myhood/src/pages/roles/roles_page.dart';
 import 'package:myhood/src/pages/store/categories/create/store_categories_create_pages.dart';
 import 'package:myhood/src/pages/store/orders/list/store_orders_list_page.dart';
@@ -41,11 +42,12 @@ class _MyAppState extends State<MyApp> {
         'client/orders/create':(BuildContext context)=>ClientOrdersCreatePage(),
         'client/adress/create':(BuildContext context)=>ClientAdressCreatePage(),
         'client/adress/list':(BuildContext context)=>ClientAdressListPage(),
-        'client/adress/map':(BuildContext context)=>ClientAdressMapPage(),
-        'delivery/orders/list':(BuildContext context)=> DeliveryOrderListPage(),
+        'client/adress/map':(BuildContext context)=>ClientAdressMapPage(),        
         'store/orders/list':(BuildContext context)=> StoreOrderListPage(),
         'store/categories/create':(BuildContext context)=>StoreCategoriesCreatePage(),
         'store/products/create':(BuildContext context)=>StoreProductsCreatePage(),
+        'delivery/orders/list':(BuildContext context)=> DeliveryOrderListPage(),
+        'delivery/orders/map':(BuildContext context)=> DeliveryOrdersMapPage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primary,

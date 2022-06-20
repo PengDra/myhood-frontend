@@ -5,7 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'dart:async';
 
-class ClientAdressMapController {
+import 'package:myhood/src/models/order.dart';
+
+class DeliveryOrdersMapController {
 
   BuildContext context;
   Function refresh;
@@ -13,6 +15,12 @@ class ClientAdressMapController {
 
   String addressName;
   LatLng addresLatLng;
+
+  BitmapDescriptor deliveryMarker;
+  BitmapDescriptor homeMarker;
+  Map<MarkerId, Marker> markers =<MarkerId, Marker> {};
+
+  Order order = new Order();
 
 
 
@@ -28,10 +36,30 @@ class ClientAdressMapController {
 
     this.context = context;
     this.refresh = refresh;
+    order =Order.fromJson(ModalRoute.of(context).settings.arguments as Map<String,dynamic>);
+    deliveryMarker = await createMarkerfromAsset('assets/img/scooter_azul_100x100.png',);
+    homeMarker = await createMarkerfromAsset('assets/img/home.png',);
     checkGPS();
-
-
   }
+
+  //agrega el marcador al mapa
+  void addMarker(String markerId, double lat, double lng,String title, String content, BitmapDescriptor iconMarker){
+    MarkerId id = MarkerId( markerId);
+    Marker marker = Marker(markerId: id,icon:iconMarker, position: LatLng(lat,lng),
+    infoWindow: InfoWindow(title: title, snippet: content));
+    markers[id]=marker;
+    refresh();
+    
+   
+  }
+  //Asigna imagen al marcador
+  Future<BitmapDescriptor> createMarkerfromAsset(String  path)async{
+    ImageConfiguration configuration = ImageConfiguration();
+    BitmapDescriptor descriptor = await BitmapDescriptor.fromAssetImage(configuration,path );
+    return descriptor;
+  }
+
+
   //Enviar informacion a la pantalla anterior
   
    void selectRefPoint(){
@@ -56,12 +84,13 @@ class ClientAdressMapController {
   void updateLocation()async{
 
     try{
-
-
       await _determinePosition();//Obtener posicion actual
-
       _position = await Geolocator.getLastKnownPosition();//Lat y Long
       animateCameraToPosition(_position.latitude, _position.longitude);//Mueve la camara hasta el punto designado
+      //Agrega el marcador del delivery(Moto)     
+      addMarker('delivery',_position.latitude, _position.longitude,'Tu Posicion','',deliveryMarker);//Agrega el marcador
+      addMarker('home',order.address.lat, order.address.lng,'Lugar de entrega','',homeMarker);
+      
 
     }catch(e){
       print("Error :"+e);

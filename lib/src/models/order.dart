@@ -53,10 +53,11 @@ class Order {
         lng: json["lng"]is String ? double.parse(json["lng"]) : json["lng"],
         timestamp: json["timestamp"] is String ? int.parse(json["timestamp"]) : json["timestamp"],
         //No entiendo bien como funciona esta linea, pero lo que devuelve una lista desde el mapa desde el modelo y si viene null entrega una lista vacia
-        products: json["products"]!=null? List<Product>.from(json["products"].map((model) => Product.fromJson(model)))??[]:[],
-        client: json["client"]is String ? userFromJson( json["client"]):User.fromJson(json["client"])??{},
-        delivery: json["delivery"]is String ? userFromJson( json["delivery"]):User.fromJson(json["delivery"])??{},
-        address: json["address"]is String ? addressFromJson( json["address"]):Address.fromJson(json["address"])??{},
+        products: json["products"]!=null? List<Product>.from(json["products"].map((model) => model is Product? model: Product.fromJson(model)))??[]:[],
+       //Si el json Client es un string se crea un User con el metodo userFromJson, si no se crea un User vacio
+        client: json["client"]is String ? userFromJson( json["client"]):json["client"] is User ? json["client"] :User.fromJson(json["client"])??{},
+        delivery:json["delivery"]is String ? userFromJson( json["delivery"]):json["delivery"] is User ?json["delivery"]:User.fromJson(json["delivery"])??{},
+        address: json["address"]is String ? addressFromJson( json["address"]):json["address"]is Address ?json["address"]:Address.fromJson(json["address"])??{},
     
     
     );

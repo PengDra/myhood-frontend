@@ -44,6 +44,43 @@ class OrdersProvider{
       return null;
     }
   }
+  Future<ResponseApi> updateToOnTheWay(Order order) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/updateToOnTheWay');
+      String bodyParams = jsonEncode(order);
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.put(url, headers: headers, body: bodyParams);
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Exception create: $e');
+      return null;
+    }
+  }
+  Future <List<Order>> getByDeliveryAndStatus(String idDelivery,String status) async{
+    try{
+      Uri url = Uri.http(_url, '$_api/findByDeliveryAndStatus/$idDelivery/$status');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      print('Antes del decode,body de la respuesta');
+      print(res.body);
+      print('///////////////////////////');
+      final data = json.decode(res.body);
+      print('///////////////////////////');
+      print('Despues del decode,printeando data desde el decode');
+      print(data);
+      Order order = Order.fromJsonList(data);
+      print(order.toList);
+      return order.toList;
+ 
+    }catch(e){
+
+      print(e);
+      print(e.stackTrace);
+      return [];
+    }
+  }
   Future <List<Order>> getByStatus(String status) async{
     try{
       Uri url = Uri.http(_url, '$_api/findByStatus/$status');

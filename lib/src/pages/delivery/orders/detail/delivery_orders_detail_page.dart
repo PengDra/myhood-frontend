@@ -6,21 +6,22 @@ import 'package:myhood/src/models/order.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/pages/client/orders/create/client_orders_create_controller.dart';
+import 'package:myhood/src/pages/delivery/orders/detail/delivery_orders_detail_controller.dart';
 import 'package:myhood/src/pages/store/orders/detail/store_orders_detail_controller.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 import 'package:myhood/src/utils/relative_time_util.dart';
 import 'package:myhood/src/widgets/no_data_widget.dart';
 
-class StoreOrdersDetailPage extends StatefulWidget {
+class DeliveryOrdersDetailPage extends StatefulWidget {
   Order order;
-  StoreOrdersDetailPage({Key key, @required this.order}) : super(key: key);
+  DeliveryOrdersDetailPage({Key key, @required this.order}) : super(key: key);
 
   @override
-  State<StoreOrdersDetailPage> createState() => _StoreOrdersDetailPageState();
+  State<DeliveryOrdersDetailPage> createState() => _DeliveryOrdersDetailPageState();
 }
 
-class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
-  StoreOrdersDetailController _con = StoreOrdersDetailController();
+class _DeliveryOrdersDetailPageState extends State<DeliveryOrdersDetailPage> {
+  DeliveryOrdersDetailController _con = DeliveryOrdersDetailController();
 
   @override
   void initState() {
@@ -46,7 +47,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
             ),
           ]
         ),
-        body: _con.order.products.length > 0
+        body: _con.order?.products?.length > 0
             ? ListView(
                 children: _con.order.products.map((Product product) {
                   return _cardProduct(product);
@@ -54,7 +55,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
               )
             : NoDataWidget(text: 'No hay Productos en tu orden '),
         bottomNavigationBar: Container(
-            height: MediaQuery.of(context).size.height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.4,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -63,38 +64,19 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
                     endIndent: 30,
                     indent: 30,
                   ),
-                  _textDescription(),
-                  _con.order.status!='PAGADO'? _deliveryData():Container(),
-                  _con.order.status=='PAGADO'? _dropdown(_con.users):Container(),
+                 
+                 
                   _textData('Cliente :  ', '${_con.order.client.name} ${_con.order.client.lastname}'),
                  
                   _textData('Entregar en : ','${_con.order.address.address}'),
                  
-                  _textData('Fecha de Pedido :','${RelativeTimeUtil.getRelativeTime(_con.order.timestamp??0)}'),
-                  
-                 
-                   _con.order.status=='PAGADO'?_buttonNext():Container()
+                  _textData('Fecha de Pedido :','${RelativeTimeUtil.getRelativeTime(_con.order.timestamp??0)}'),                 
+                   _buttonNext()
                 ],
               ),
             )));
   }
   
-  Widget _textDescription(){
-    return Container(
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(left: 30,),
-      child: Text(
-        _con.order.status == 'PAGADO'? 'Asignar Repartidor':'Repartidor Asignado:',
-        style: TextStyle(
-          fontSize: 20,
-          fontStyle: FontStyle.italic,
-          color: MyColors.primary,
-        ),
-      ),
-    );
-    
-  } 
-
   Widget _cardProduct(Product product) {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -114,104 +96,9 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
         ]));
   }
 
-  Widget _dropdown(List<User> users) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      child: Material(
-        elevation: 2.0,
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(children: [          
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 0),
-              child: DropdownButton(
-                underline: Container(
-                  alignment: Alignment.centerRight,
-                  child: Icon(
-                    Icons.arrow_drop_down_circle,
-                    color: MyColors.primary,
-                  ),
-                ),
-                elevation: 3,
-                isExpanded: true,
-                hint: Text(
-                  'Selecciona un Repartidor',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
-                ),
-                items: _dropDownItems(users),
-                value: _con.idDelivery,
-                onChanged: (option){
-                  setState(() {
-                    print('Usuario Seleccionado: $option');
-                    _con.idDelivery = option;
-                  });
-                },
-              ),
-            )
-          ]),
-        ),
-      ),
-    );
-  }
-  Widget _deliveryData(){
-    return  Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      child: Row(
-            children: [
-              Container(
-                  height: 40,
-                  width: 40,
-                  child: FadeInImage(
-                    image: _con.order.delivery?.image != null
-                        ? NetworkImage(_con.user?.image)
-                        : AssetImage('assets/img/no-image.png'),
-                    fit: BoxFit.cover,
-                    fadeInDuration: Duration(milliseconds: 50),
-                    placeholder: AssetImage('assets/img/no-image.png'),
-                  ),
-                ),
-                SizedBox(width: 5),
-              Text('${_con.order.delivery?.name??''} ${_con.order.delivery?.lastname??''}',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            ],
-          ),
-    );
-  }
-  List<DropdownMenuItem<String>>_dropDownItems(List<User>users){
-    List<DropdownMenuItem<String>> list =[];
-
-    users.forEach((user) {
-      
-      list.add(DropdownMenuItem(
-        child: Row(
-          children: [
-            Container(
-                height: 40,
-                width: 40,
-                child: FadeInImage(
-                  image: _con.user?.image != null
-                      ? NetworkImage(_con.user?.image)
-                      : AssetImage('assets/img/no-image.png'),
-                  fit: BoxFit.cover,
-                  fadeInDuration: Duration(milliseconds: 50),
-                  placeholder: AssetImage('assets/img/no-image.png'),
-                ),
-              ),
-              SizedBox(width: 5),
-            Text(user.name),
-          ],
-        ),
-        value: user.id,
-      ));
-    });
-    return list;
-
-  }
+  
+ 
+  
 
   
 
@@ -266,7 +153,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
                     height: 40,
                     alignment: Alignment.center,
                     child: Text(
-                      'Despachar Orden',
+                      'Iniciar Entrega',
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -282,7 +169,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
                     height: 40,
                     alignment: Alignment.center,
                     child: Icon(
-                      Icons.check_circle,
+                      Icons.directions_car,
                       color: Colors.white,
                       size: 30,
                     ),
