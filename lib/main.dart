@@ -6,6 +6,8 @@ import 'package:myhood/src/pages/client/orders/create/client_orders_create_page.
 import 'package:myhood/src/pages/client/orders/list/client_orders_list_page.dart';
 import 'package:myhood/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:myhood/src/pages/client/update/client_update_page.dart';
+import 'package:myhood/src/pages/client/upgrade/todelivery/client_upgrade_to_delivery_page.dart';
+import 'package:myhood/src/pages/client/upgrade/tostore/client_upgrade_to_store_page.dart';
 import 'package:myhood/src/pages/delivery/orders/map/delivery_orders_map_page.dart';
 import 'package:myhood/src/pages/roles/roles_page.dart';
 import 'package:myhood/src/pages/store/categories/create/store_categories_create_pages.dart';
@@ -44,7 +46,9 @@ class _MyAppState extends State<MyApp> {
         'client/orders/list':(BuildContext context)=>ClientOrdersListPage(),
         'client/adress/create':(BuildContext context)=>ClientAdressCreatePage(),
         'client/adress/list':(BuildContext context)=>ClientAdressListPage(),
-        'client/adress/map':(BuildContext context)=>ClientAdressMapPage(),        
+        'client/adress/map':(BuildContext context)=>ClientAdressMapPage(),    
+        'client/upgrade/tostore':(BuildContext context)=>ClientUpgradeToStorePage(),
+        'client/upgrade/todelivery':(BuildContext context)=>ClientUpgradeToDeliveryPage(),
         'store/orders/list':(BuildContext context)=> StoreOrderListPage(),
         'store/categories/create':(BuildContext context)=>StoreCategoriesCreatePage(),
         'store/products/create':(BuildContext context)=>StoreProductsCreatePage(),

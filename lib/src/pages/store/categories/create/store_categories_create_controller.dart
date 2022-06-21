@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/response_api.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/provider/categories_provider.dart';
 import 'package:myhood/src/utils/my_snackbar.dart';
+import 'package:myhood/src/utils/shared_pref.dart';
 
 class StoreCategoriesCreateController {
   BuildContext context;
@@ -10,37 +14,37 @@ class StoreCategoriesCreateController {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   CategoriesProvider _categoriesProvider = new CategoriesProvider();
+  Store store;
+  SharedPref _sharedPref = new SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     _categoriesProvider.init(context);
+    store = Store.fromJson(await _sharedPref.read('store'));
   }
+
   void createCategory() async {
-    String name =nameController.text;
+    String name = nameController.text;
     String description = descriptionController.text;
 
-    if(name.isEmpty || description.isEmpty){
+    if (name.isEmpty || description.isEmpty) {
       MySnackbar.show(context, 'Porfavor Ingresa todos los campos');
       return;
     }
 
-    Categori categori = new Categori(
-      name:name,
-      description:description
-    );
-    
-    ResponseApi responseApi = await _categoriesProvider.create(categori);
+    Categori categori = new Categori(name: name, description: description);
 
-    MySnackbar.show(context, responseApi.message);
-    if(responseApi?.success){
-      MySnackbar.show(context, 'Categoria creada correctamente');
-      nameController.text = '';
-      descriptionController.text = '';
+    Stream stream = await _categoriesProvider.create(categori, store);
 
-
-    }
+    stream.listen((res) {
+      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+      MySnackbar.show(context, responseApi.message);
+      if (responseApi?.success) {
+        MySnackbar.show(context, 'Categoria creada correctamente');
+        nameController.text = '';
+        descriptionController.text = '';
+      }
+    });
   }
-
-
 }

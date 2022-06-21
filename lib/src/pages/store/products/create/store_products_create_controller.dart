@@ -5,9 +5,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/models/response_api.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/provider/categories_provider.dart';
 import 'package:myhood/src/provider/products_provider.dart';
 import 'package:myhood/src/utils/my_snackbar.dart';
+import 'package:myhood/src/utils/shared_pref.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import 'dart:convert';
 
@@ -20,6 +22,7 @@ class StoreProductsCreateController {
   CategoriesProvider _categoriesProvider = new CategoriesProvider();
   ProductsProvider _productsProvider = new ProductsProvider();
   List<Categori> categories = [];
+  Store store;
 
   //Imagenes
   PickedFile pickedFile;
@@ -28,12 +31,14 @@ class StoreProductsCreateController {
   File imageFile3;
 
   ProgressDialog _progressDialog;
+  SharedPref _sharedPref = new SharedPref();
 
 
   String idCategory;
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
+    store = Store.fromJson(await _sharedPref.read('store')); 
     _progressDialog = ProgressDialog(context: context);
     _categoriesProvider.init(context);
     _productsProvider.init(context);
@@ -78,7 +83,7 @@ class StoreProductsCreateController {
     _progressDialog.show(max: 100, msg: 'Creando Producto');
 
 
-    Stream stream = await _productsProvider.create(product, images);
+    Stream stream = await _productsProvider.create(store,product, images);
 
     stream.listen((res) {
       _progressDialog.close();

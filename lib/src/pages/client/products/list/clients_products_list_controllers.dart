@@ -15,7 +15,8 @@ class ClientProductsListController {
 
   Function refresh;
   User user;
-
+  bool showMyStore =false ;
+  bool showDelivery=false;
   CategoriesProvider _categoriesProvider = new CategoriesProvider();
   ProductsProvider _productsProvider = new ProductsProvider();
   List<Categori> categories = [];
@@ -26,6 +27,18 @@ class ClientProductsListController {
     _productsProvider.init(context);
     print('Dentro del init');
     user = User.fromJson(await _sharedPref.read('user'));
+    user.roles.forEach((element) {
+      if(element.name == "STORE"){
+        showMyStore = true;
+      }
+    });
+
+    
+    user.roles.forEach((element) {
+      if(element.name == "DELIVERY"){
+        showDelivery = true;
+      }
+    });
     print(user.toJson());
     this.refresh = refresh;
     getCategories();
@@ -66,5 +79,11 @@ class ClientProductsListController {
 
   void goToUpdatePage() {
     Navigator.pushNamed(context, 'client/update');
+  }
+  void goToUpgradeToStorePage() {
+    Navigator.pushNamed(context, 'client/upgrade/tostore');
+  }
+  void goToUpgradeToDeliveryPage() {
+    Navigator.pushNamed(context, 'client/upgrade/todelivery');
   }
 }

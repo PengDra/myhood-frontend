@@ -105,6 +105,34 @@ class UsersProvider {
     }
 
   }
+  Future<Stream>updateToDelivery(User user,File image)async{
+    try{
+      //Se genera la url desde la cual se va a consumir el servicio
+      Uri url = Uri.http(_url, '$_api/updateToDelivery');
+      //Se crea el mapa con los datos que se van a enviar(Request Multipart)
+      final request = http.MultipartRequest('PUT', url);
+      //Si el la imagen no es nula se agrega al request
+      if(image!=null){
+        request.files.add(http.MultipartFile(
+          'image',
+          http.ByteStream(image.openRead().cast()),
+          await image.length(),
+          filename: basename(image.path),
+        ));
+      }
+
+      //Se agrega el body del request
+      request.fields['user']=json.encode(user);
+      //Se envia el request al servicio
+      final response = await request.send();
+      return response.stream.transform(utf8.decoder);
+      
+    }catch(e){
+      print('Error: '+e);
+      return null;
+    }
+
+  }
 
   Future<ResponseApi> create(User user) async {
     try {

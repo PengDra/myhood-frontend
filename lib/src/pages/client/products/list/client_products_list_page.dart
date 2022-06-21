@@ -5,6 +5,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/product.dart';
+import 'package:myhood/src/models/rol.dart';
 import 'package:myhood/src/pages/client/products/list/clients_products_list_controllers.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 import 'package:myhood/src/widgets/no_data_widget.dart';
@@ -28,6 +29,11 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    
+    
+    
+    
     return DefaultTabController(
       length: _con.categories.length,
       child: Scaffold(
@@ -305,6 +311,39 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                       trailing: Icon(Icons.person_outline),
                     )
                   : Container()
+              : Container(),
+          //Si el usuario no es null entonces (?)
+          _con.user != null
+              ?
+              //Si el usuario tiene mas de un rol entonces (?)
+                _con.showMyStore
+                  ? ListTile(
+                      onTap: (){},
+                      title: Text('Mi Tienda'),
+                      trailing: Icon(Icons.store_mall_directory_sharp),
+                    )
+                  : ListTile(
+                      onTap: _con.goToUpgradeToStorePage,
+                      title: Text('Crear Tienda'),
+                      trailing: Icon(Icons.store_mall_directory_sharp),
+                    )
+              : Container(),
+          //Los : equivalen al else del if (?)
+          //Si el usuario no es null entonces (?)
+          _con.user != null
+              ?
+              //Si el usuario tiene mas de un rol entonces (?)
+                _con.showDelivery
+                  ? ListTile(
+                      onTap: _con.goToRoles,
+                      title: Text('Mis Repartos'),
+                      trailing: Icon(Icons.bike_scooter_outlined),
+                    )
+                  : ListTile(
+                      onTap: _con.goToUpgradeToDeliveryPage,
+                      title: Text('Trabajar como delivery'),
+                      trailing: Icon(Icons.bike_scooter_outlined),
+                    )
               : Container(),
           //Los : equivalen al else del if (?)
           ListTile(

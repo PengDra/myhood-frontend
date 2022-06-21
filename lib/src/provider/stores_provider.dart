@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:myhood/src/models/store.dart';
 import 'package:path/path.dart';
 
 import 'package:flutter/foundation.dart';
@@ -11,12 +10,13 @@ import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/models/response_api.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/store.dart';
 import '../models/user.dart';
 
 
-class ProductsProvider{
+class StoresProvider{
   String _url = Environment.API_MyHOOD;
-  String _api ='/api/products';
+  String _api ='/api/stores';
 
   BuildContext context;
   
@@ -24,26 +24,26 @@ class ProductsProvider{
     this.context = context;
   }
   
-  Future<Stream>create(Store store ,Product product,List<File> images)async{
+  Future<Stream>create(Store store,User user,File image)async{
     try{
-      print(product.toString());
+      print(store.toString());
        //Se genera la url desde la cual se va a consumir el servicio
       Uri url = Uri.http(_url, '$_api/create');
       //Se crea el mapa con los datos que se van a enviar(Request Multipart)
       final request = http.MultipartRequest('POST', url);
       //Si el la imagen no es nula se agrega al request
-      for(int i = 0; i < images.length; i++){
+      if(image!=null){
         request.files.add(http.MultipartFile(
           'image',
-          http.ByteStream(images[i].openRead().cast()),
-          await images[i].length(),
-          filename: basename(images[i].path),
+          http.ByteStream(image.openRead().cast()),
+          await image.length(),
+          filename: basename(image.path),
         ));
       }
       
       //Se agrega el body del request
       request.fields['store']=json.encode(store);
-      request.fields['product']=json.encode(product);
+      request.fields['user']=json.encode(user);
       //Se envia el request al servicio
       final response = await request.send();
       return response.stream.transform(utf8.decoder);
@@ -53,29 +53,23 @@ class ProductsProvider{
       return null;
     }
   }
-   Future <List<Product>> getByCategory(String idCategory) async{
+  Future<Store> getStoreByUserId(String id) async {
     try{
-      Uri url = Uri.http(_url, '$_api/findByCategory/$idCategory');
+      Uri url = Uri.http(_url, '$_api/findByUserId/$id');
       Map<String, String> headers = {'Content-Type': 'application/json'};
       final res = await http.get(url, headers: headers);
-      print('Antes del decode,body de la respuesta');
       print(res.body);
-      print('///////////////////////////');
       final data = json.decode(res.body);
-      print('///////////////////////////');
-      print('Despues del decode,printeando data desde el decode');
-      print(data);
-      Product product = Product.fromJsonList(data);
-      print(product.toList);
-      return product.toList;
- 
+      Store store = Store.fromJson(data);
+      return store;
     }catch(e){
-
       print(e);
-      print(e.stackTrace);
-      return [];
+      return null;
     }
+    
+    
   }
+  
 
 
 
