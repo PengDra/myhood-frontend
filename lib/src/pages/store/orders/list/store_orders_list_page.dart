@@ -224,7 +224,7 @@ class _StoreOrderListPageState extends State<StoreOrderListPage> {
           _con.user != null
               ?
               //Si el usuario tiene mas de un rol entonces (?)
-              _con.user.roles.length > 1
+              _con.user?.roles?.length > 1
                   ? ListTile(
                       onTap: _con.goToRoles,
                       title: Text('Seleccionar Rol'),
