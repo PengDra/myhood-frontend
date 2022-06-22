@@ -7,6 +7,9 @@ import 'package:myhood/src/models/response_api.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:path/path.dart';
 
+
+/// Esta es la clase que interactua con el API para crear y obtener los usuarios.
+
 class UsersProvider {
 
   String _url = Environment.API_MyHOOD;
@@ -16,6 +19,11 @@ class UsersProvider {
   Future init(BuildContext context) {
     this.context = context;
   }
+
+
+  /// Este metodo crea un usuario en el API.
+  /// Recibe un String con el id del usuario.
+  /// Devuelve una [ResponseApi] con el estado de la respuesta.
   Future<User> getById(String id) async {
     try{
       Uri url = Uri.http(_url, '$_api/findById/$id');
@@ -32,6 +40,8 @@ class UsersProvider {
     
     
   }
+
+  /// Este metodo devuelve una lista de [User] que contiene a todos los usuarios.
   Future<List<User>> getDeliveryMan() async {
     try{
       Uri url = Uri.http(_url, '$_api/findDeliveryMan');
@@ -48,6 +58,10 @@ class UsersProvider {
     
     
   }
+
+  /// Este metodo crea un usuario en el API.
+  /// Recibe un [User] con los datos del usuario y una imagen.
+  /// Devuelve una [ResponseApi] con el estado de la respuesta.
   Future<Stream>createWithImage(User user,File image)async{
     try{
       print(user.toString());
@@ -77,6 +91,10 @@ class UsersProvider {
     }
 
   }
+  /// Este metodo actualiza un usuario en el API.
+  /// Recibe un [User] con los datos del usuario y una imagen.
+  /// Devuelve una [ResponseApi] con el estado de la respuesta.
+
   Future<Stream>update(User user,File image)async{
     try{
       //Se genera la url desde la cual se va a consumir el servicio
@@ -105,6 +123,13 @@ class UsersProvider {
     }
 
   }
+
+
+
+  /// Este metodo actualiza un usuario en el API.
+  /// Recibe un [User] con los datos del usuario y una imagen.
+  /// Devuelve un objeto de Tipo Stream StreamedResponse.
+
   Future<Stream>updateToDelivery(User user,File image)async{
     try{
       //Se genera la url desde la cual se va a consumir el servicio
@@ -134,6 +159,11 @@ class UsersProvider {
 
   }
 
+
+  /// Este metodo crea un usuario en el API.
+  /// Recibe un [User] con los datos del usuario.
+  /// Devuelve una [ResponseApi] con el estado de la respuesta.
+
   Future<ResponseApi> create(User user) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
@@ -148,6 +178,11 @@ class UsersProvider {
       return null;
     }
   }
+
+  /// Este metodo Realiza el procesod de login en la API.
+  /// Recibe un string con el email y un string con la contraseña.
+  /// Devuelve un ResponseApi con el estado de la respuesta.
+
   Future<ResponseApi> login(String email, String password) async {
     try {
       Uri url = Uri.http(_url, '$_api/login');

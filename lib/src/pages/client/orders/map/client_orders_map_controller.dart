@@ -14,6 +14,9 @@ import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Esta clase muestra el mapa de la orden y la distancia en la que se encuentra el delivery.
+
+
 class ClientOrdersMapController {
 
   BuildContext context;

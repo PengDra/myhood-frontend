@@ -5,6 +5,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'dart:async';
 
+/// Esta clase permite mostrar el mapa de una direccion.
+/// Permite seleccionar una direccion y guardarla en el objeto para posteriormente crear una nueva tienda.
+/// 
+
 class StoreAdressMapController {
 
   BuildContext context;

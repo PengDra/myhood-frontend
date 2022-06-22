@@ -4,6 +4,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'dart:async';
+/// Clase que controla el mapa de google.
+/// Recibe el contexto de la aplicación.
+/// Recibe la función Refresh que actualiza los contenidos de la pantalla.
+/// 
 
 class ClientAdressMapController {
 
@@ -34,6 +38,7 @@ class ClientAdressMapController {
   }
   //Enviar informacion a la pantalla anterior
   
+  /// Envia la dirección almacenada en la variable [addressName],[addresLatLng] a la pantalla de list address.
    void selectRefPoint(){
 
     Map<String, dynamic> data = {
@@ -42,15 +47,21 @@ class ClientAdressMapController {
       'lng': addresLatLng.longitude,
     };
     Navigator.pop(context, data);
-    
-  }
   
+  }
+  /// Crea el mapa de google.
+  /// Recibe el controlador del mapa.
   //Crear el mapa con su estilo
   void onMapCreated(GoogleMapController controller){
     controller.setMapStyle('[{"elementType":"geometry","stylers":[{"color":"#ebe3cd"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#523735"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#f5f1e6"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#c9b2a6"}]},{"featureType":"administrative.land_parcel","elementType":"geometry.stroke","stylers":[{"color":"#dcd2be"}]},{"featureType":"administrative.land_parcel","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#ae9e90"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#dfd2ae"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#dfd2ae"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#93817c"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#a5b076"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#447530"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#f5f1e6"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#fdfcf8"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#f8c967"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#e9bc62"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry","stylers":[{"color":"#e98d58"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.stroke","stylers":[{"color":"#db8555"}]},{"featureType":"road.local","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#806b63"}]},{"featureType":"transit","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#dfd2ae"}]},{"featureType":"transit.line","elementType":"labels.text.fill","stylers":[{"color":"#8f7d77"}]},{"featureType":"transit.line","elementType":"labels.text.stroke","stylers":[{"color":"#ebe3cd"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#dfd2ae"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#b9d3c2"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#92998d"}]}]');
     _mapController.complete(controller);
 
   }
+
+  /// Obtiene la dirección de la ubicación actual.
+  /// Recibe la ubicación actual.
+  /// Envia la dirección almacenada en la variable [addressName],[addresLatLng] a la pantalla de list address.
+  
 
   //Obtener la posicion actual
   void updateLocation()async{
@@ -67,7 +78,7 @@ class ClientAdressMapController {
       print("Error :"+e);
     }
   }
-
+  ///Mueve la camara a la posicion designada.
 
   //Animar la camara
   Future animateCameraToPosition(double lat, double long)async{
@@ -81,7 +92,8 @@ class ClientAdressMapController {
 
   }
 
-
+  /// Revisa si la ubicación está habilitada.
+  /// Si no esta habilitada solicita la habilitación.
   //Revisar si el GPS esta activado luego llamar al metodo que actualiza la posicion
   void checkGPS()async{
     bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
@@ -94,7 +106,7 @@ class ClientAdressMapController {
       }
     }
   }
-
+  /// Permite designar una ubicacion. el marcador se coloca en el centro de la pantalla.
   //Cambia el nombre de las paginas en la pantalla
   Future<Null> setLocationDraggableInfo()async{
     if(initialPosition != null){
@@ -117,6 +129,8 @@ class ClientAdressMapController {
     }
   }
   }
+
+  /// Este metodo obtiene la posicion actual, lo saqué directamente desde la documentacion de flutter.
 
   //Metodo para obtener la posicion actual, sacado directamente desde la documentacion
   Future<Position> _determinePosition() async {

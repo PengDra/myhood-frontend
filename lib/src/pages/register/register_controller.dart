@@ -29,13 +29,18 @@ class RegisterController {
   ProgressDialog _progressDialog;
   bool isEnabled = true;
 
-
+  /// Constructor de la clase.
+  /// Recibe el contexto de la aplicación.
+  /// Recibe la funcion Refresh que actualiza los contenidos de la pantalla.
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     _progressDialog = new ProgressDialog(context: context);
     usersProvider.init(context);
   }
+
+  /// Metodo que registra un nuevo usuario
+  /// Si la respuesta es correcta se muestra un snackbar y se redirecciona a login
 
   void register() async {
     String email = emailController.text.trim();
@@ -109,6 +114,7 @@ class RegisterController {
       }
     });
   }
+  /// Metodo que permite seleccionar una imagen de la galeria
 
   Future selectImage(ImageSource imageSource) async {
     pickedFile = await ImagePicker().getImage(source: imageSource);

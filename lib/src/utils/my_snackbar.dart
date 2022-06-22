@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+
+/// Esta clase muestra un snackbar con un mensaje.
+/// recibe un String con el mensaje.
+
 class MySnackbar{
   static void show(BuildContext context, String text){
    if(context == null)return;

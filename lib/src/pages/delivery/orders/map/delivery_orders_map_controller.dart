@@ -13,7 +13,9 @@ import 'package:myhood/src/provider/orders_provider.dart';
 import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+/// Esta clase muestra la ubicacion del cliente en el mapa.
+/// Recibe una orden desde los parametros de la creacion de la vista.
+/// Solo se puede entregar una orden si el cliente esta a 100 metros ubicacion de entrega.
 class DeliveryOrdersMapController {
 
   BuildContext context;

@@ -12,7 +12,7 @@ import 'package:myhood/src/models/response_api.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/user.dart';
-
+/// Esta es la clase que interactua con el API para crear y obtener los productos.
 
 class ProductsProvider{
   String _url = Environment.API_MyHOOD;
@@ -23,6 +23,11 @@ class ProductsProvider{
   Future init(BuildContext context) async {
     this.context = context;
   }
+
+  ///Este metodo recibe como parametro un [Store], un [Product] y un [List<File>] que corresponden a la lista de imagenes del producto.
+  ///Debido a que se envian multiples imagenes, se utiliza el metodo [multipartRequest] para enviar las imagenes al API.
+  ///por lo tanto la respuesta de este metodo es un objeto de tipo Stream que viene del paquete [http].
+  ///este objeto se convierte en una lista de tipo StreamedResponse  y se devuelve decodificado.
   
   Future<Stream>create(Store store ,Product product,List<File> images)async{
     try{
@@ -53,6 +58,9 @@ class ProductsProvider{
       return null;
     }
   }
+
+  /// Este metodo recibe como parametro un [String] que corresponde al id del producto.
+  /// Se devuelve un objeto de tipo [Product] que corresponde al producto que se busca.
    Future <List<Product>> getByCategory(String idCategory) async{
     try{
       Uri url = Uri.http(_url, '$_api/findByCategory/$idCategory');

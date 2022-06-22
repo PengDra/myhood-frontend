@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+/// Esta clase representa una Tienda .
+/// posee un metodo ToJson que convierte la Tienda en un JSON.
+/// posee un metodo fromJson que convierte un JSON en una Tienda.
+
 Store storeFromJson(String str) => Store.fromJson(json.decode(str));
 
 String storeToJson(Store data) => json.encode(data.toJson());

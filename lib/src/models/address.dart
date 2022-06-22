@@ -6,6 +6,11 @@ Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 
 String addressToJson(Address data) => json.encode(data.toJson());
 
+/// Esta clase representa una direccion.
+/// posee un metodo ToJson que convierte la direccion en un JSON.
+/// posee un metodo fromJson que convierte un JSON en una direccion.
+/// posee un metodo fromJsonList que convierte una lista de JSON en una lista de direcciones.
+
 class Address {
     Address({
         this.id,

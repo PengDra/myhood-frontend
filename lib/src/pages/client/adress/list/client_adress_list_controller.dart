@@ -20,6 +20,7 @@ class ClientAdressListController {
   OrdersProvider _ordersProvider= new OrdersProvider();
   
 
+
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
@@ -39,6 +40,9 @@ class ClientAdressListController {
     }
   }
 
+  /// Obtiene las direcciones del usuario.
+  
+
   Future<List<Address>> getAdress() async {
     
     try{
@@ -55,6 +59,13 @@ class ClientAdressListController {
     }
     return address;
   }
+
+  /// Obtiene los productos de una orden.
+  /// Recibe el id de la orden.
+  /// Recibe una lista de productos en el [selectedProducts] que obtiene desde los shared preferences.
+  /// Retorna una lista de productos.
+  /// Se asigna la lista al objeto [order] que se obtiene desde los shared preferences.
+  /// se crea una nueva orden en la BD.
   void createOrder()async{
     Address a = Address.fromJson(await _sharedPref.read('address') ?? {});
     List<Product> selectedProducts = Product.fromJsonList(await _sharedPref.read('order')).toList;
@@ -66,6 +77,8 @@ class ClientAdressListController {
     ResponseApi response = await _ordersProvider.create(order);
     print('Respuesta: ${response.message}');
   }
+
+  /// maneja el valor del radio button.
   void handleRadioValueChange(int value) async {
     radioValue = value;
     _sharedPref.save('address', address[value]);

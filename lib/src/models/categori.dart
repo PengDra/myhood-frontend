@@ -1,7 +1,8 @@
-// To parse this JSON data, do
-//
-//     final categori = categoriFromJson(jsonString);
-
+/// Esta clase representa una categoria.
+/// posee un metodo ToJson que convierte la direccion en un JSON.
+/// posee un metodo fromJson que convierte un JSON en una direccion.
+/// posee un metodo fromJsonList que convierte una lista de JSON en una lista de direcciones.
+/// se llama categori ocn (I) por que existe una clase del framework que se llama category y me causaba muchos problemas. 
 import 'dart:convert';
 
 Categori categoriFromJson(String str) => Categori.fromJson(json.decode(str));

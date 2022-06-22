@@ -9,6 +9,11 @@ import 'package:myhood/src/provider/users_provider.dart';
 import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
+
+/// Clase que controla la vista de ver una orden.
+/// Recibe una orden desde los parametros de la creacion de la vista.
+/// permite ver la cantidad de productos, el precio total de la orden.
+
 class ClientOrdersDetailController {
   BuildContext context;
   Function refresh;

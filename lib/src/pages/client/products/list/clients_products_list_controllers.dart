@@ -8,6 +8,11 @@ import 'package:myhood/src/provider/categories_provider.dart';
 import 'package:myhood/src/provider/products_provider.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
+
+/// Esta clase controla la vista de ver todos los productos.
+/// Esta clase lista los productos dependiendo del estado de esta.
+/// Esta clase muestra el detalle de un producto cuando se interactua con un producto.
+
 class ClientProductsListController {
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();

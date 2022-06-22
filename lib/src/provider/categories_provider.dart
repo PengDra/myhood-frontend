@@ -9,6 +9,9 @@ import 'package:http/http.dart' as http;
 import 'package:myhood/src/models/store.dart';
 
 
+
+/// Esta es la clase que interactua con el API para crear y obtener las categorias.
+
 class CategoriesProvider{
   String _url = Environment.API_MyHOOD;
   String _api ='/api/categories';
@@ -18,6 +21,9 @@ class CategoriesProvider{
   Future init(BuildContext context) async {
     this.context = context;
   }
+
+  /// Este metodo entrega todas las categorias en una lista.
+  /// 
   Future <List<Categori>> getAll() async{
     try{
       Uri url = Uri.http(_url, '$_api/getAll');
@@ -41,6 +47,10 @@ class CategoriesProvider{
       return [];
     }
   }
+
+  /// Este metodo recibe el [String idStore] de una tienda y devuelve una lista de categorias que contiene toda la tienda.
+ 
+
   Future <List<Categori>> getByIdStore(String idStore) async{
     try{
       Uri url = Uri.http(_url, '$_api/getByIdStore/$idStore');
@@ -64,6 +74,12 @@ class CategoriesProvider{
       return [];
     }
   }
+
+
+
+  /// Este metodo recibe un [Categori] y un [Store] lo guarda en el API.
+  /// Devuelve un [ResponseApi] con el contenido de la consulta.
+  /// 
   Future<ResponseApi> create(Categori category, Store store) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
@@ -91,31 +107,6 @@ class CategoriesProvider{
       return null;
     }
   }
-  /*
-  Future<Stream>createWithStore(Store store ,Categori categori)async{
-    try{
-      print(categori.toString());
-       //Se genera la url desde la cual se va a consumir el servicio
-      Uri url = Uri.http(_url, '$_api/create');
-      //Se crea el mapa con los datos que se van a enviar(Request Multipart)
-      //final request = http.MultipartRequest('POST', url);
-      final request = http.Request('POST', url);
-      
-      //Se agrega el body del request
-      request.fields['store']=json.encode(store);
-      request.fields['category']=json.encode(categori);
-      //Se envia el request al servicio
-      final response = await request.send();
-      return response.stream.transform(utf8.decoder);
-      
-    }catch(e){
-      print('Error: '+e);
-      return null;
-    }
-  }
-  */
-
-
-
+  
 
 }

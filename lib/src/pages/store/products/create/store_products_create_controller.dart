@@ -13,6 +13,11 @@ import 'package:myhood/src/utils/shared_pref.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import 'dart:convert';
 
+
+/// Clase que controla la vista de crear un producto.
+/// Esta clase le permite  a la tienda crear un producto.
+/// se toman los datos de la tienda y se envian al servidor.
+
 class StoreProductsCreateController {
   BuildContext context;
   Function refresh;

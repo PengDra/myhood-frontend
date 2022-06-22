@@ -1,3 +1,9 @@
+/// Esta clase representa una producto.
+/// posee un metodo ToJson que convierte la producto en un JSON.
+/// posee un metodo fromJson que convierte un JSON en una producto.
+/// posee un metodo fromJsonList que convierte una lista de JSON en una lista de productos.
+
+
 
 import 'dart:convert';
 

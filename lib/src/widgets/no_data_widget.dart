@@ -6,6 +6,9 @@ class NoDataWidget extends StatelessWidget {
   String text;
   NoDataWidget({Key key, this.text}) : super(key: key);
 
+  
+  /// Esta clase muestra un widget que muestra un mensaje.
+  
   @override
   Widget build(BuildContext context) {
     return Container(

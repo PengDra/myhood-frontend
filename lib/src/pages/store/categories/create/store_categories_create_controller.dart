@@ -11,6 +11,13 @@ import 'package:myhood/src/provider/users_provider.dart';
 import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
+
+
+/// Clase que controla la vista de crear categoria.
+/// Esta opcion solo puede ser seleccionada si el cliente no tiene tienda.
+/// Se toman los datos de la tienda y se envian al servidor.
+
+
 class StoreCategoriesCreateController {
   BuildContext context;
   Function refresh;
@@ -86,9 +93,6 @@ class StoreCategoriesCreateController {
       nameController.text = '';
       descriptionController.text = '';
     }
-
-    
-
   }
   
 }

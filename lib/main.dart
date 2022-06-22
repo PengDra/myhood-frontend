@@ -29,6 +29,13 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+
+/// Esta es la clase principal de la aplicación.
+/// Esta clase es la que se encarga de crear el [MaterialApp] que es el componente principal de la aplicación.
+/// Las rutas funcionan de la siguiente manera:
+/// - Las rutas de tipo [MaterialPageRoute] son las rutas que se muestran en la aplicación.
+
+
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {

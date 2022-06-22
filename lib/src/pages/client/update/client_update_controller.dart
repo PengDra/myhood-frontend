@@ -10,6 +10,7 @@ import 'package:myhood/src/provider/users_provider.dart';
 import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
+/// Clase que controla la vista de actualizar un usuario.
 
 class ClientUpdateController {
   BuildContext context;

@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
+/// Esta clase permite guardar objetos en formato JSON en una SharedPreferences.
+
 class SharedPref{
 
   //Guardar elemento en el dispositivo

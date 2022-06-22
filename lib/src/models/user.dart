@@ -1,4 +1,7 @@
 
+/// Esta clase representa un USuario .
+/// posee un metodo ToJson que convierte el Usuario . en un JSON .
+/// posee un metodo fromJson que convierte un JSON en un Usuario.
 
 import 'dart:convert';
 

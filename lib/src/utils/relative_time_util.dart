@@ -1,5 +1,8 @@
 import 'package:intl/intl.dart';
 
+
+/// Esta clase permite convertir los timestamp a formato de fecha de tiempo relativa (1 dia atras, 1 semana atras etc.).
+
 class RelativeTimeUtil {
   
   static String getRelativeTime(int timestamp) {

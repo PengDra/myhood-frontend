@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+
+/// Esta clase define los colores de la aplicacion.
+
 class MyColors {
   static const Color primary = Color(0xFF86BBD8);
   static const Color primaryOpacity = Color.fromRGBO(134, 187, 216, 0.5);

@@ -8,6 +8,12 @@ import 'package:myhood/src/provider/orders_provider.dart';
 import 'package:myhood/src/provider/stores_provider.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
+
+/// Esta clase controla la vista de ver todas las ordenes.
+/// Esta clase lista las ordenes dependiendo del estado de esta.
+/// Esta clase muestra el detalle de la orden cuando es interactuada con ella.
+/// Recibe la [Order] que se quiere ver.
+
 class StoreOrdersListController{
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();

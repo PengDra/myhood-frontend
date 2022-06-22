@@ -9,7 +9,10 @@ import 'package:myhood/src/provider/users_provider.dart';
 import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
-
+/// En esta clase se controla la vista de ver una orden.
+/// Se recibe una [Orden] desde los parametros de la creacion de la vista.
+/// Permite ver la cantidad de productos, el precio total de la orden.
+/// La tienda puede seleccionar un delivery para realizar la entrega.
 class StoreOrdersDetailController{
 
   BuildContext context;
@@ -29,6 +32,8 @@ class StoreOrdersDetailController{
 
   
   int total = 0;
+
+  
 
   Future init(BuildContext context, Function refresh,Order order)async{
 

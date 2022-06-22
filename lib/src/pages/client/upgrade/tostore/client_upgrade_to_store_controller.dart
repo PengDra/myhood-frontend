@@ -15,6 +15,11 @@ import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
+
+/// Clase que controla la vista de crear tienda.
+/// Se toman los datos de la tienda y se envian al servidor.
+/// 
+
 class ClientUpgradeToStoreController {
   BuildContext context;
 

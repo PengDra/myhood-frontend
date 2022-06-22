@@ -30,7 +30,9 @@ class ClientAdressCreateController {
     _addressProvider.init(context);
     refresh();
   }
-
+  /// Este metodo recibe el punto de referencia desde la pagina de mapa.
+  /// si el valor es null, no se hace nada.
+  /// Si el valor no es null, se guarda en el mapa y se actualiza el texto del campo de texto. 
   void openMap() async {
     //ESPERA UNA RESPUESTA DE LA PAGINA DE MAPA
     //MIND BLOWN PROBLEM
@@ -46,6 +48,10 @@ class ClientAdressCreateController {
     }
   }
 
+
+  /// Este metodo se encarga de crear una direccion.
+  /// obtiene la longitud y latitud del mapa [refPoint].
+  
   void createAddress() async {
     String addressName = addressController.text;
     String neighborhood = neighborhoodController.text;

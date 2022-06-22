@@ -3,6 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
+/// Clase que controla la vista de crear una orden.
+/// Recibe una lista de productos en el [selectedProducts] que obtiene desde los shared preferences.
+/// Permite agregar y quitar productos de la orden, ademas de calcular el precio total. 
 
 class ClientOrdersCreateController{
 

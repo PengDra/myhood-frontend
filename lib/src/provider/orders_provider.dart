@@ -5,6 +5,7 @@ import 'package:myhood/src/models/response_api.dart';
 import 'package:http/http.dart' as http;
 import '../models/order.dart';
 
+/// Esta es la clase que interactua con el API para crear y obtener las ordenes.
 
 class OrdersProvider{
   String _url = Environment.API_MyHOOD;
@@ -15,6 +16,9 @@ class OrdersProvider{
   Future init(BuildContext context) async {
     this.context = context;
   }
+
+  /// Este metodo crea una order en el API.
+  /// Devuelve una [ResponseApi] con el estado de la respuesta.
 
   Future<ResponseApi> create(Order order) async {
     try {
@@ -30,6 +34,9 @@ class OrdersProvider{
       return null;
     }
   }
+
+  /// Este metodo recibe una orden y actualiza el estado a "DESPACHADO" en el API.
+  /// Devuelve una [ResponseApi] con el estado de la respuesta.
   Future<ResponseApi> updateToDispatched(Order order) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToDispatched');
@@ -44,6 +51,8 @@ class OrdersProvider{
       return null;
     }
   }
+  /// Este metodo recibe una orden y actualiza el estado a "EN CAMINO" en el API.
+  /// Devuelve una [ResponseApi] con el estado de la respuesta.
   Future<ResponseApi> updateToOnTheWay(Order order) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToOnTheWay');
@@ -58,6 +67,8 @@ class OrdersProvider{
       return null;
     }
   }
+  /// Este metodo recibe una orden y actualiza el estado a "ENTREGADO" en el API.
+  /// Devuelve una [ResponseApi] con el estado de la respuesta.
    Future<ResponseApi> updateToDelivered(Order order) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToDelivered');
@@ -72,6 +83,8 @@ class OrdersProvider{
       return null;
     }
   }
+  /// Esta consulta se encarga de obtener todas las ordenes del API separadas por estado.
+  /// Devuelve una lista de [Order] con las ordenes.
   Future <List<Order>> getByDeliveryAndStatus(String idDelivery,String status) async{
     try{
       Uri url = Uri.http(_url, '$_api/findByDeliveryAndStatus/$idDelivery/$status');
@@ -95,6 +108,9 @@ class OrdersProvider{
       return [];
     }
   }
+  /// Esta consulta obtiene todas las ordenes de cliente
+  /// Devuelve una lista de [Order] con las ordenes.
+
   Future <List<Order>> getByClientAndStatus(String idClient,String status) async{
     try{
       Uri url = Uri.http(_url, '$_api/findByClientAndStatus/$idClient/$status');
@@ -118,6 +134,10 @@ class OrdersProvider{
       return [];
     }
   }
+
+
+  /// Esta consulta obtiene todas las ordenes por estado
+  /// Devuelve una lista de [Order] con las ordenes.
   Future <List<Order>> getByStatus(String status) async{
     try{
       Uri url = Uri.http(_url, '$_api/findByStatus/$status');

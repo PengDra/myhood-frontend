@@ -12,7 +12,8 @@ import 'package:http/http.dart' as http;
 
 import '../models/store.dart';
 import '../models/user.dart';
-
+/// Esta es la clase que interactua con el API para crear y obtener las categorias.
+/// 
 
 class StoresProvider{
   String _url = Environment.API_MyHOOD;
@@ -23,7 +24,8 @@ class StoresProvider{
   Future init(BuildContext context) async {
     this.context = context;
   }
-  
+  ///Este metodo recibe como parametro el [Store], [User] , una imagen y crea una tienda.
+  ///Devuelve un objeto de Tipo Stream StreamedResponse.
   Future<Stream>create(Store store,User user,File image)async{
     try{
       print(store.toString());
@@ -53,6 +55,8 @@ class StoresProvider{
       return null;
     }
   }
+
+  /// Este metodo recibe como parametro el String del id del [User] y devuelve un objeto de tipo [Store].
   Future<Store> getStoreByUserId(String id) async {
     try{
       Uri url = Uri.http(_url, '$_api/findByUserId/$id');
@@ -67,8 +71,6 @@ class StoresProvider{
       print(e);
       return null;
     }
-    
-    
   }
   
 

@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:myhood/src/models/address.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/models/user.dart';
+/// Esta clase representa una orden.
+/// posee un metodo ToJson que convierte la orden en un JSON.
+/// posee un metodo fromJson que convierte un JSON en una orden.
+/// posee un metodo fromJsonList que convierte una lista de JSON en una lista de ordenes.
 
 Order orderFromJson(String str) => Order.fromJson(json.decode(str));
 

@@ -8,6 +8,10 @@ import 'package:myhood/src/pages/store/orders/detail/store_orders_detail_page.da
 import 'package:myhood/src/provider/orders_provider.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
+
+/// Esta clase controla la vista de ver todas las ordenes.
+/// Esta clase lista las ordenes dependiendo del estado de esta.
+
 class ClientOrdersListController{
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();
@@ -31,7 +35,9 @@ class ClientOrdersListController{
   Future<List<Order>>getOrders(String status)async{
     return await _ordersProvider.getByClientAndStatus(user.id,status);
   }
-
+  /// Muestra el detalle de la orden.
+  /// Recibe la [Order] que se quiere ver.
+  
   void openBottomSheet(Order order)async{
     print(order.toString());
     isUpdated = await showMaterialModalBottomSheet(context: context, builder: (context)=>ClientOrdersDetailPage(order: order ));

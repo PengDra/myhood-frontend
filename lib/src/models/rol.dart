@@ -1,6 +1,6 @@
-// To parse this JSON data, do
-//
-//     final rol = rolFromJson(jsonString);
+/// Esta clase representa un Rol .
+/// posee un metodo ToJson que convierte el Rol en un JSON.
+/// posee un metodo fromJson que convierte un JSON en un Rol.
 
 import 'dart:convert';
 

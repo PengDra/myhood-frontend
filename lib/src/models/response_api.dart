@@ -1,3 +1,11 @@
+/// Esta clase representa una respuesta del servidor.
+/// posee un metodo ToJson que convierte la respuestaen un JSON.
+/// posee un metodo fromJson que convierte un JSON en una respuesta.
+
+
+
+
+
 import 'dart:convert';
 
 ResponseApi responseApiFromJson(String str) =>

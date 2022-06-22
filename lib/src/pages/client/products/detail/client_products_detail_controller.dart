@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
+
+
+
+///Esta clase muestra el detalle de un producto.
+///Permite agregar y quitar productos de la orden, ademas de calcular el precio total de la suma de dicho producto.
+///
+
 class ClientProductsDetailController{
 
   BuildContext context;
