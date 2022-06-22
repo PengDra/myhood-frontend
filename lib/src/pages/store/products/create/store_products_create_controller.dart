@@ -33,7 +33,7 @@ class StoreProductsCreateController {
   ProgressDialog _progressDialog;
   SharedPref _sharedPref = new SharedPref();
 
-
+  bool isLoading = false;
   String idCategory;
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -47,7 +47,7 @@ class StoreProductsCreateController {
   }
   void getCategories()async{
     
-    categories = await _categoriesProvider.getAll();
+    categories = await _categoriesProvider.getByIdStore(store.id);
     refresh();
   }
   void createProduct() async {
@@ -93,6 +93,8 @@ class StoreProductsCreateController {
 
       if(responseApi.success){
         resetValues();
+      }else{
+        _progressDialog.close();
       }
     });
 

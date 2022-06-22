@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myhood/src/models/order.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/pages/store/orders/detail/store_orders_detail_page.dart';
 import 'package:myhood/src/provider/orders_provider.dart';
+import 'package:myhood/src/provider/stores_provider.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
 class StoreOrdersListController{
@@ -12,17 +14,30 @@ class StoreOrdersListController{
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   Function refresh;
   User user =new User();
+  Store store;
 
   List<String>status= ['PAGADO','DESPACHADO','EN CAMINO', 'ENTREGADO'];
   OrdersProvider _ordersProvider = new OrdersProvider();
+  SharedPref sharedPref = new SharedPref();
+  StoresProvider _storesProvider = new StoresProvider();
 
-  bool isUpdated = false;
+
+  bool isUpdated;
+   
 
   Future init(BuildContext context, Function refresh)async{
     this.context = context;  
-    user = User.fromJson(await _sharedPref.read('user')); 
-    _ordersProvider.init(context); 
     this.refresh = refresh;
+    _ordersProvider.init(context); 
+    _storesProvider.init(context);
+
+    isUpdated = false;
+    user = User.fromJson(await _sharedPref.read('user'));
+    
+    store = await _storesProvider.getStoreByUserId(user.id);//Obteniendo datos actualizados desde bd        
+    //Guardando datos actualizados en sharedPref
+    await sharedPref.save('store', store);
+    isUpdated = true;
     refresh();
   }
 

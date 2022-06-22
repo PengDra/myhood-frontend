@@ -29,7 +29,7 @@ class _StoreOrderListPageState extends State<StoreOrderListPage> {
       length: _con.status.length,
       child: Scaffold(
         key: _con.key,
-        drawer: _con.user?.roles?.isEmpty? Container()  :_drawer(),
+        drawer: _con.isUpdated ==false ? Container()  :_drawer(),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(100),
           child: AppBar(
@@ -224,7 +224,7 @@ class _StoreOrderListPageState extends State<StoreOrderListPage> {
           _con.user != null
               ?
               //Si el usuario tiene mas de un rol entonces (?)
-              _con.user?.roles?.length > 1
+              _con.isUpdated ==true
                   ? ListTile(
                       onTap: _con.goToRoles,
                       title: Text('Seleccionar Rol'),
