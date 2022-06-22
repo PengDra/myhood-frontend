@@ -29,7 +29,7 @@ class _StoreOrderListPageState extends State<StoreOrderListPage> {
       length: _con.status.length,
       child: Scaffold(
         key: _con.key,
-        drawer: _drawer(),
+        drawer: _con.user?.roles?.isEmpty? Container()  :_drawer(),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(100),
           child: AppBar(

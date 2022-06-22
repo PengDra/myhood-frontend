@@ -24,12 +24,12 @@ class Store {
     String idUser;
 
     factory Store.fromJson(Map<String, dynamic> json) => Store(
-        id: json["id"],
+        id: json["id"] is int ? json["id"].toString() : json["id"],
         name: json["name"],
         address: json["address"],
         image: json["image"],
-        lat: json["lat"].toDouble(),
-        lng: json["lng"].toDouble(),
+        lat: json["lat"] is String ? double.parse(json["lat"]) : json["lat"],
+        lng: json["lng"] is String ? double.parse(json["lng"]) : json["lng"],
         idUser: json["id_user"],
     );
 

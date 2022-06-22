@@ -88,7 +88,7 @@ class _StoreCategoriesCreatePageState extends State<StoreCategoriesCreatePage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: ElevatedButton(
-          onPressed: _con.createCategory,
+          onPressed: _con.createCategoryWithStore,
           child: Text('Crear Categoria'),
           style: ElevatedButton.styleFrom(
               primary: MyColors.primary,

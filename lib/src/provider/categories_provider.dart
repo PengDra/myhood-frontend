@@ -6,6 +6,7 @@ import 'package:myhood/src/api/enviroment.dart';
 import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/response_api.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhood/src/models/store.dart';
 
 
 class CategoriesProvider{
@@ -40,12 +41,25 @@ class CategoriesProvider{
       return [];
     }
   }
-  Future<ResponseApi> create(Categori category) async {
+  Future<ResponseApi> create(Categori category, Store store) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
-      String bodyParams = jsonEncode(category);
+      String jsonCategory = jsonEncode(category);
+      String jsonStore = jsonEncode(store);
+      
       Map<String, String> headers = {'Content-Type': 'application/json'};
-      final res = await http.post(url, headers: headers, body: bodyParams);
+      //final res = await http.post(url, headers: headers, body: jsonCategory, jsonStore);
+      //create the response object adding jsonCategory and jsonStore to the body
+      final res = await http.post(url, headers: headers, body: jsonEncode(
+        {
+          'category': jsonCategory,
+          'store': jsonStore
+        }
+      ));
+
+      //final res = await http.post(url, headers: headers, body:'{"category":['+ jsonCategory + '],' +'"store":['+ jsonStore+']}');
+      //final res = await http.post(url, headers: headers, body: jsonCategory+jsonStore);
+      
       final data = json.decode(res.body);
       ResponseApi responseApi = ResponseApi.fromJson(data);
       return responseApi;
@@ -54,7 +68,29 @@ class CategoriesProvider{
       return null;
     }
   }
-
+  /*
+  Future<Stream>createWithStore(Store store ,Categori categori)async{
+    try{
+      print(categori.toString());
+       //Se genera la url desde la cual se va a consumir el servicio
+      Uri url = Uri.http(_url, '$_api/create');
+      //Se crea el mapa con los datos que se van a enviar(Request Multipart)
+      //final request = http.MultipartRequest('POST', url);
+      final request = http.Request('POST', url);
+      
+      //Se agrega el body del request
+      request.fields['store']=json.encode(store);
+      request.fields['category']=json.encode(categori);
+      //Se envia el request al servicio
+      final response = await request.send();
+      return response.stream.transform(utf8.decoder);
+      
+    }catch(e){
+      print('Error: '+e);
+      return null;
+    }
+  }
+  */
 
 
 

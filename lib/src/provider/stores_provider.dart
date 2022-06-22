@@ -58,9 +58,10 @@ class StoresProvider{
       Uri url = Uri.http(_url, '$_api/findByUserId/$id');
       Map<String, String> headers = {'Content-Type': 'application/json'};
       final res = await http.get(url, headers: headers);
-      print(res.body);
+      print(res);
       final data = json.decode(res.body);
       Store store = Store.fromJson(data);
+      print(store.toJson());
       return store;
     }catch(e){
       print(e);
