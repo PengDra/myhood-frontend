@@ -67,6 +67,10 @@ class ClientUpgradeToStoreController {
       MySnackbar.show(context, "Todos los campos son obligatorios");
       return;
     } 
+    if (imageFile == null) {
+      MySnackbar.show(context, "Debe seleccionar una imagen");
+      return;
+    }
     _progressDialog.show(max: 100, msg: "Registrando Tienda...");
 
     

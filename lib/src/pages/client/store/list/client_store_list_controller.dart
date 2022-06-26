@@ -1,11 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/product.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/pages/client/products/detail/client_products_detail_page.dart';
 import 'package:myhood/src/provider/categories_provider.dart';
 import 'package:myhood/src/provider/products_provider.dart';
+import 'package:myhood/src/provider/stores_provider.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
 
@@ -13,22 +16,21 @@ import 'package:myhood/src/utils/shared_pref.dart';
 /// Esta clase lista los productos dependiendo del estado de esta.
 /// Esta clase muestra el detalle de un producto cuando se interactua con un producto.
 
-class ClientProductsListController {
+class ClientStoreListController {
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
+
   Function refresh;
   User user;
   bool showMyStore =false ;
   bool showDelivery=false;
-  CategoriesProvider _categoriesProvider = new CategoriesProvider();
-  ProductsProvider _productsProvider = new ProductsProvider();
-  List<Categori> categories = [];
+  StoresProvider _storesProvider = new StoresProvider();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
-    _categoriesProvider.init(context);
-    _productsProvider.init(context);
+    this.refresh = refresh;
+    _storesProvider.init(context);
     print('Dentro del init');
     user = User.fromJson(await _sharedPref.read('user'));
     user.roles.forEach((element) {
@@ -36,8 +38,6 @@ class ClientProductsListController {
         showMyStore = true;
       }
     });
-
-    
     user.roles.forEach((element) {
       if(element.name == "DELIVERY"){
         showDelivery = true;
@@ -45,17 +45,12 @@ class ClientProductsListController {
     });
     print(user.toJson());
     this.refresh = refresh;
-    getCategories();
+    getStores();
     refresh();
   }
 
-  Future<List<Product>> getProducts(String idCategory) async {
-    return await _productsProvider.getByCategory(idCategory);
-  }
-
-  void getCategories() async {
-    categories = await _categoriesProvider.getAll();
-    refresh();
+  Future<List<Store>> getStores() async {
+    return await _storesProvider.getAll();
   }
 
   void openBottomSheet(Product product) {

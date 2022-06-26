@@ -6,19 +6,20 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/models/rol.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/pages/client/products/list/clients_products_list_controllers.dart';
+import 'package:myhood/src/pages/client/store/list/client_store_list_controller.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 import 'package:myhood/src/widgets/no_data_widget.dart';
 
-class ClientProductsListPage extends StatefulWidget {
-  const ClientProductsListPage({Key key}) : super(key: key);
-
+class ClientStoreListPage extends StatefulWidget {
+  const ClientStoreListPage({Key key}) : super(key: key);
   @override
-  State<ClientProductsListPage> createState() => _ClientProductsListPageState();
+  State<ClientStoreListPage> createState() => _ClientStoreListPageState();
 }
 
-class _ClientProductsListPageState extends State<ClientProductsListPage> {
-  ClientProductsListController _con = new ClientProductsListController();
+class _ClientStoreListPageState extends State<ClientStoreListPage> {
+  ClientStoreListController _con = new ClientStoreListController();
   @override
   void initState() {
     super.initState();
@@ -29,9 +30,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: _con.categories.length,
-      child: Scaffold(
+    return 
+       Scaffold(
         key: _con.key,
         drawer: _drawer(),
         appBar: PreferredSize(
@@ -48,27 +48,18 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                 SizedBox(
                   height: 64,
                 ),
-                _textFieldSearch(),
-                
+                Text('Todos las Tiendas',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
               ],
             ),
-            bottom: TabBar(
-                indicatorColor: MyColors.primary,
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey[400],
-                isScrollable: true,
-                tabs: List<Widget>.generate(_con.categories.length, (index) {
-                  return Tab(
-                    child: Text(_con.categories[index].name ?? ''),
-                  );
-                })),
           ),
         ),
-        body: TabBarView(
-          children: _con.categories.map((Categori categori) {
-            return FutureBuilder(
-                future: _con.getProducts(categori.id),
-                builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+        body:FutureBuilder(
+                future: _con.getStores(),
+                builder: (context, AsyncSnapshot<List<Store>> snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data.length > 0) {
                       return GridView.builder(
@@ -80,16 +71,13 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                             return _cardProduct(snapshot.data[index]);
                           });
                     } else {
-                      return NoDataWidget(text: 'No hay productos');
+                      return NoDataWidget(text: 'No hay Tiendas');
                     }
                   } else {
-                    return NoDataWidget(text: 'No hay productos');
+                    return NoDataWidget(text: 'No hay Tiendas');
                   }
-                });
-          }).toList(),
-        ),
-      ),
-    );
+                }));
+  
   }
 
   Widget _menuDrawer() {
@@ -160,12 +148,9 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
     );
   }
 
-  Widget _cardProduct(Product product) {
+  Widget _cardProduct(Store store) {
     return GestureDetector(
-      onTap:(){
-        _con.openBottomSheet(product);
-
-      } ,
+      onTap:(){} ,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         height: 250,
@@ -201,8 +186,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                   width: MediaQuery.of(context).size.width * 0.45,
                   padding: EdgeInsets.all(20),
                   child: FadeInImage(
-                    image: product.image1 != null
-                        ? NetworkImage(product.image1)
+                    image:store.image != null
+                        ? NetworkImage(store.image)
                         : AssetImage('assets/img/no-image.png'),
                     fit: BoxFit.contain,
                     placeholder: AssetImage('assets/img/no-image.png'),
@@ -212,27 +197,22 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   height: 33,
                   child: Text(
-                    product.name ?? '',
+                    store.name ?? '',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 15,
                     ),
                   ),
-                ),
-                Spacer(),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Text(
-                    '${product.price ?? ''}',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ])
+                ),        
+              ],
+              ),
             ],
           ),
         ),
       ),
+        
+   
     );
   }
 

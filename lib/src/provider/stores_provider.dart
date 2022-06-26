@@ -72,6 +72,25 @@ class StoresProvider{
       return null;
     }
   }
+  ///Este metodo recibe todas las tiendas
+  
+  Future<List<Store>> getAll() async {
+    try{
+      Uri url = Uri.http(_url, '$_api/findAll');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      print(res);
+      final data = json.decode(res.body);
+      List<Store> stores = new List<Store>();
+      data.forEach((element) {
+        stores.add(Store.fromJson(element));
+      });
+      return stores;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
   
 
 

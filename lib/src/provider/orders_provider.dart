@@ -35,6 +35,21 @@ class OrdersProvider{
     }
   }
 
+  Future<ResponseApi> createWith(Order order) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/create');
+      String bodyParams = jsonEncode(order);
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.post(url, headers: headers, body: bodyParams);
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Exception create: $e');
+      return null;
+    }
+  }
+
   /// Este metodo recibe una orden y actualiza el estado a "DESPACHADO" en el API.
   /// Devuelve una [ResponseApi] con el estado de la respuesta.
   Future<ResponseApi> updateToDispatched(Order order) async {

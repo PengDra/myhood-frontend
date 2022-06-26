@@ -5,6 +5,7 @@ import 'package:myhood/src/pages/client/adress/map/client_adress_map_page.dart';
 import 'package:myhood/src/pages/client/orders/create/client_orders_create_page.dart';
 import 'package:myhood/src/pages/client/orders/list/client_orders_list_page.dart';
 import 'package:myhood/src/pages/client/products/list/client_products_list_page.dart';
+import 'package:myhood/src/pages/client/store/list/client_store_list_page.dart';
 import 'package:myhood/src/pages/client/update/client_update_page.dart';
 import 'package:myhood/src/pages/client/upgrade/todelivery/client_upgrade_to_delivery_page.dart';
 import 'package:myhood/src/pages/client/upgrade/tostore/client_upgrade_to_store_page.dart';
@@ -47,6 +48,7 @@ class _MyAppState extends State<MyApp> {
         'login':(BuildContext context)=>LoginPage(),
         'register':(BuildContext context)=>RegisterPage(),
         'roles':(BuildContext context)=>RolesPage(),
+        'client/store/list':(BuildContext context) => ClientStoreListPage(),
         'client/products/list':(BuildContext context)=>ClientProductsListPage(),
         'client/update':(BuildContext context)=>ClientUpdatePage(),
         'client/orders/create':(BuildContext context)=>ClientOrdersCreatePage(),

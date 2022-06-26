@@ -26,6 +26,7 @@ class Store {
     double lat;
     double lng;
     String idUser;
+    List<Store> toList =[];
 
     factory Store.fromJson(Map<String, dynamic> json) => Store(
         id: json["id"] is int ? json["id"].toString() : json["id"],
@@ -46,4 +47,13 @@ class Store {
         "lng": lng,
         "id_user": idUser,
     };
+
+    Store.fromJsonList(List<dynamic> jsonList) {
+        if (jsonList == null) return;
+        jsonList.forEach((element) {
+          print(element);
+          Store store=Store.fromJson(element);
+          toList.add(store);
+        });
+    }
 }
