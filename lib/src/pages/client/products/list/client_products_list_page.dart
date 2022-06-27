@@ -6,24 +6,27 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/models/rol.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/pages/client/products/list/clients_products_list_controllers.dart';
 import 'package:myhood/src/utils/my_colors.dart';
 import 'package:myhood/src/widgets/no_data_widget.dart';
 
 class ClientProductsListPage extends StatefulWidget {
   const ClientProductsListPage({Key key}) : super(key: key);
-
   @override
   State<ClientProductsListPage> createState() => _ClientProductsListPageState();
 }
 
 class _ClientProductsListPageState extends State<ClientProductsListPage> {
   ClientProductsListController _con = new ClientProductsListController();
+  Store store = new Store();
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
+      //get the store from the parameters
+      store = ModalRoute.of(context).settings.arguments;
     });
   }
 

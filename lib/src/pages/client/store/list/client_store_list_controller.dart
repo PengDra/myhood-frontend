@@ -69,6 +69,11 @@ class ClientStoreListController {
   void goToRoles() {
     Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
   }
+
+  //Toma el store seleccionado y lo envia a la vista de detalle de store
+  void goToStoreProducts(Store store) {
+    Navigator.pushNamed(context, 'client/products/list', arguments: store);
+  }
   void goToOrderCreatePage() {
     Navigator.pushNamed(context, 'client/orders/create');
   }

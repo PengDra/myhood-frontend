@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myhood/src/models/categori.dart';
 import 'package:myhood/src/models/product.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/pages/client/products/detail/client_products_detail_page.dart';
 import 'package:myhood/src/provider/categories_provider.dart';
@@ -24,11 +25,15 @@ class ClientProductsListController {
   CategoriesProvider _categoriesProvider = new CategoriesProvider();
   ProductsProvider _productsProvider = new ProductsProvider();
   List<Categori> categories = [];
+  Store store = new Store();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
+    this.refresh = refresh;
     _categoriesProvider.init(context);
     _productsProvider.init(context);
+    //Obten la tienda desde los parametros de la ruta.
+    store = ModalRoute.of(context).settings.arguments;
     print('Dentro del init');
     user = User.fromJson(await _sharedPref.read('user'));
     user.roles.forEach((element) {
@@ -36,17 +41,19 @@ class ClientProductsListController {
         showMyStore = true;
       }
     });
-
-    
     user.roles.forEach((element) {
       if(element.name == "DELIVERY"){
         showDelivery = true;
       }
     });
     print(user.toJson());
-    this.refresh = refresh;
-    getCategories();
+   
+    getCategoriesByIdStore(store.id);
     refresh();
+  }
+
+  Future<List<Product>> getProductsByStore(String idCategory,String idStore) async {
+    return await _productsProvider.getByCategory(idCategory);
   }
 
   Future<List<Product>> getProducts(String idCategory) async {
@@ -55,6 +62,10 @@ class ClientProductsListController {
 
   void getCategories() async {
     categories = await _categoriesProvider.getAll();
+    refresh();
+  }
+  void getCategoriesByIdStore(String idStore) async {
+    categories = await _categoriesProvider.getByIdStore(idStore);
     refresh();
   }
 

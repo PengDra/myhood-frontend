@@ -150,7 +150,9 @@ class _ClientStoreListPageState extends State<ClientStoreListPage> {
 
   Widget _cardProduct(Store store) {
     return GestureDetector(
-      onTap:(){} ,
+      onTap:( ){
+         _con.goToStoreProducts(store);
+      } ,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         height: 250,

@@ -58,10 +58,7 @@ class ProductsProvider{
       return null;
     }
   }
-
-  /// Este metodo recibe como parametro un [String] que corresponde al id del producto.
-  /// Se devuelve un objeto de tipo [Product] que corresponde al producto que se busca.
-   Future <List<Product>> getByCategory(String idCategory) async{
+  Future <List<Product>> getByCategory(String idCategory) async{
     try{
       Uri url = Uri.http(_url, '$_api/findByCategory/$idCategory');
       Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -72,6 +69,31 @@ class ProductsProvider{
       final data = json.decode(res.body);
       print('///////////////////////////');
       print('Despues del decode,printeando data desde el decode');
+      print(data);
+      Product product = Product.fromJsonList(data);
+      print(product.toList);
+      return product.toList;
+ 
+    }catch(e){
+
+      print(e);
+      print(e.stackTrace);
+      return [];
+    }
+  }
+
+  /// Este metodo recibe como parametro un [String] que corresponde al id del producto.
+  /// Se devuelve un objeto de tipo [Product] que corresponde al producto que se busca.
+   Future <List<Product>> getByCategoryAndStore(String idCategory,String idStore) async{
+    try{
+      Uri url = Uri.http(_url, '$_api/findByCategory/$idCategory/$idStore');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      
+      print(res.body);
+      
+      final data = json.decode(res.body);
+      
       print(data);
       Product product = Product.fromJsonList(data);
       print(product.toList);
