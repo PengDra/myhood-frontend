@@ -63,7 +63,7 @@ class ClientUpgradeToDeliveryController {
       image: user.image
     );
 
-    Stream stream = await usersProvider.update(myUser, imageFile);
+    Stream stream = await usersProvider.updateToDelivery(myUser, imageFile);
 
     stream.listen((res)async {
       _progressDialog.close();
@@ -76,7 +76,7 @@ class ClientUpgradeToDeliveryController {
         user = await usersProvider.getById(myUser.id);//Obteniendo datos actualizados desde bd
         print(user.toJson());
         await sharedPref.save('user', user.toJson());//Guardando datos actualizados en sharedPref
-        Navigator.pushNamedAndRemoveUntil(context, 'client/products/list', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, 'client/stores/list', (route) => false);
       } else {
         MySnackbar.show(context, responseApi.message);
         isEnabled = true;

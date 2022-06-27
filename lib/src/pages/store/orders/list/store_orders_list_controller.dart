@@ -27,7 +27,8 @@ class StoreOrdersListController{
   SharedPref sharedPref = new SharedPref();
   StoresProvider _storesProvider = new StoresProvider();
 
-
+  String idStore;
+  Store myStore;
   bool isUpdated;
    
 
@@ -42,7 +43,10 @@ class StoreOrdersListController{
     
     store = await _storesProvider.getStoreByUserId(user.id);//Obteniendo datos actualizados desde bd        
     //Guardando datos actualizados en sharedPref
-    await sharedPref.save('store', store);
+    sharedPref.save('store', store);
+    //Obteniendo la tienda desde los shared pref
+    myStore = Store.fromJson(await sharedPref.read('store')) ;
+    print('myStore: $myStore');
     isUpdated = true;
     refresh();
   }
@@ -50,8 +54,8 @@ class StoreOrdersListController{
   Future<List<Order>>getOrders(String status)async{
     return await _ordersProvider.getByStatus(status);
   }
-  Future<List<Order>>getOrdersAndIdStore(String status,String idStore)async{
-    return await _ordersProvider.getByStatus(status);
+  Future<List<Order>>getOrdersAndIdStore(String status)async{
+    return await _ordersProvider.getByStoreAndStatus(myStore?.id,status);
   }
 
 

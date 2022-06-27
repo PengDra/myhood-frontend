@@ -109,7 +109,7 @@ class OrdersProvider{
   
   Future <List<Order>> getByStoreAndStatus(String idStore,String status) async{
     try{
-      Uri url = Uri.http(_url, '$_api/findByDeliveryAndStatus/$idStore/$status');
+      Uri url = Uri.http(_url, '$_api/findByStoreAndStatus/$idStore/$status');
       Map<String, String> headers = {'Content-Type': 'application/json'};
       final res = await http.get(url, headers: headers);
       print('Antes del decode,body de la respuesta');
