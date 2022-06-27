@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myhood/src/models/address.dart';
 import 'package:myhood/src/models/order.dart';
 import 'package:myhood/src/models/product.dart';
 import 'package:myhood/src/models/response_api.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/provider/address_provider.dart';
 import 'package:myhood/src/provider/orders_provider.dart';
@@ -18,13 +20,14 @@ class ClientAdressListController {
   int radioValue = 0;
   bool isCreated = false;
   OrdersProvider _ordersProvider= new OrdersProvider();
+  Store store;
   
 
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    
+    store=  ModalRoute.of(context).settings.arguments;
     user = User.fromJson(await _sharedPref.read('user'));
     _addressProvider.init(context);
     _ordersProvider.init(context);
@@ -32,7 +35,7 @@ class ClientAdressListController {
   }
 
   void goToNewAdress() async {
-    var result = await Navigator.pushNamed(context, 'client/adress/create');
+    var result = await Navigator.pushNamed(context, 'client/adress/create', arguments: store);
     if (result != null) {
       if (result) {
         refresh();
@@ -74,8 +77,10 @@ class ClientAdressListController {
       idAddress: a.id,
       products: selectedProducts
     );
-    ResponseApi response = await _ordersProvider.create(order);
+    ResponseApi response = await _ordersProvider.createWithStore(order,store);
     print('Respuesta: ${response.message}');
+    Fluttertoast.showToast(msg: response.message);
+    Navigator.pushNamedAndRemoveUntil(context, 'client/store/list', (route) => false);
   }
 
   /// maneja el valor del radio button.

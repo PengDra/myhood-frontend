@@ -50,6 +50,10 @@ class StoreOrdersListController{
   Future<List<Order>>getOrders(String status)async{
     return await _ordersProvider.getByStatus(status);
   }
+  Future<List<Order>>getOrdersAndIdStore(String status,String idStore)async{
+    return await _ordersProvider.getByStatus(status);
+  }
+
 
   void openBottomSheet(Order order)async{
     isUpdated = await showMaterialModalBottomSheet(context: context, builder: (context)=>StoreOrdersDetailPage(order: order ));

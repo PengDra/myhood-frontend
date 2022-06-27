@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myhood/src/models/address.dart';
 import 'package:myhood/src/models/response_api.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/pages/client/adress/map/client_adress_map_page.dart';
 import 'package:myhood/src/provider/address_provider.dart';
@@ -22,12 +23,14 @@ class ClientAdressCreateController {
   AddressProvider _addressProvider = AddressProvider();
   SharedPref _sharedPref= new SharedPref();
   User user;
+  Store store;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     user= User.fromJson(await _sharedPref.read('user'));
     _addressProvider.init(context);
+    store=  ModalRoute.of(context).settings.arguments;
     refresh();
   }
   /// Este metodo recibe el punto de referencia desde la pagina de mapa.

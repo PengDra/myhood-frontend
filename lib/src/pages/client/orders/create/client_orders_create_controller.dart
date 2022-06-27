@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myhood/src/models/product.dart';
+import 'package:myhood/src/models/store.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 
 /// Clase que controla la vista de crear una orden.
@@ -17,6 +18,7 @@ class ClientOrdersCreateController{
   int productPrice;
 
   SharedPref _sharedPref= new SharedPref();
+  Store store;
 
   List<Product> selectedProducts = [];
   int total = 0;
@@ -27,7 +29,8 @@ class ClientOrdersCreateController{
     this.refresh = refresh;
     selectedProducts = Product.fromJsonList(await _sharedPref.read('order')).toList;
     getTotal();
-    
+    //get store from arguments
+    store=  ModalRoute.of(context).settings.arguments;
     refresh();
   }
   void getTotal(){
@@ -50,11 +53,9 @@ class ClientOrdersCreateController{
   void removeItem(Product product){
     if(product.cuantity > 1){
       int index = selectedProducts.indexWhere((p)=>p.id == product.id);
-   
-    selectedProducts[index].cuantity = selectedProducts[index].cuantity -1;
-    _sharedPref.save('order', selectedProducts);
-    getTotal();
-
+      selectedProducts[index].cuantity = selectedProducts[index].cuantity -1;
+      _sharedPref.save('order', selectedProducts);
+      getTotal();
     }
     
 
@@ -66,7 +67,7 @@ class ClientOrdersCreateController{
 
   }
   void goToAdress(){
-    Navigator.pushNamed(context, 'client/adress/list');
+    Navigator.pushNamed(context, 'client/adress/list', arguments: store);
   }
 
 }

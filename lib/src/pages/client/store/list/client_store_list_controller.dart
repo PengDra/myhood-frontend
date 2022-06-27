@@ -45,6 +45,8 @@ class ClientStoreListController {
     });
     print(user.toJson());
     this.refresh = refresh;
+    //remueve la orden del shared preferences
+    await _sharedPref.remove('order');
     getStores();
     refresh();
   }
@@ -73,6 +75,9 @@ class ClientStoreListController {
   //Toma el store seleccionado y lo envia a la vista de detalle de store
   void goToStoreProducts(Store store) {
     Navigator.pushNamed(context, 'client/products/list', arguments: store);
+  }
+  void goToMyStore() {
+    Navigator.pushNamedAndRemoveUntil(context, '/store/orders/detail', (route) => false);
   }
   void goToOrderCreatePage() {
     Navigator.pushNamed(context, 'client/orders/create');

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myhood/src/api/enviroment.dart';
 import 'package:myhood/src/models/response_api.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhood/src/models/store.dart';
 import '../models/order.dart';
 
 /// Esta es la clase que interactua con el API para crear y obtener las ordenes.
@@ -35,12 +36,17 @@ class OrdersProvider{
     }
   }
 
-  Future<ResponseApi> createWith(Order order) async {
+  Future<ResponseApi> createWithStore(Order order,Store store) async {
     try {
-      Uri url = Uri.http(_url, '$_api/create');
-      String bodyParams = jsonEncode(order);
+      Uri url = Uri.http(_url, '$_api/createWithStore');
+      String jsonOrder= jsonEncode(order);
+      String jsonStore= jsonEncode(store);
+      
       Map<String, String> headers = {'Content-Type': 'application/json'};
-      final res = await http.post(url, headers: headers, body: bodyParams);
+      final res = await http.post(url, headers: headers, body: jsonEncode({
+        'order': jsonOrder,
+        'store': jsonStore
+      }));
       final data = json.decode(res.body);
       ResponseApi responseApi = ResponseApi.fromJson(data);
       return responseApi;
@@ -98,6 +104,33 @@ class OrdersProvider{
       return null;
     }
   }
+  /// Este metodo se encarga de obtener todas las ordenes del API separadas por id de tienda y Estado
+  /// Devuelve una lista de [Order] con las ordenes.
+  
+  Future <List<Order>> getByStoreAndStatus(String idStore,String status) async{
+    try{
+      Uri url = Uri.http(_url, '$_api/findByDeliveryAndStatus/$idStore/$status');
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      print('Antes del decode,body de la respuesta');
+      print(res.body);
+      print('///////////////////////////');
+      final data = json.decode(res.body);
+      print('///////////////////////////');
+      print('Despues del decode,printeando data desde el decode');
+      print(data);
+      Order order = Order.fromJsonList(data);
+      print(order.toList);
+      return order.toList;
+ 
+    }catch(e){
+
+      print(e);
+      print(e.stackTrace);
+      return [];
+    }
+  }
+
   /// Esta consulta se encarga de obtener todas las ordenes del API separadas por estado.
   /// Devuelve una lista de [Order] con las ordenes.
   Future <List<Order>> getByDeliveryAndStatus(String idDelivery,String status) async{

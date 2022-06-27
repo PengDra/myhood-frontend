@@ -68,7 +68,9 @@ class _ClientOrdersCreatePageState extends State<ClientOrdersCreatePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(product.name?? ''
-              , style: TextStyle(
+              ,maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold)
               ),

@@ -40,9 +40,7 @@ class _ClientStoreListPageState extends State<ClientStoreListPage> {
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
             //leading:_menuDrawer(),
-            actions: [
-              _shopingBag(),
-            ],
+           
             flexibleSpace: Column(
               children: [
                 SizedBox(
@@ -124,29 +122,7 @@ class _ClientStoreListPageState extends State<ClientStoreListPage> {
     );
   }
 
-  Widget _shopingBag() {
-    return GestureDetector(
-      onTap:_con.goToOrderCreatePage,
-      child: Stack(
-        children: [
-          Container(
-              margin: EdgeInsets.only(right: 20, top: 13),
-              child: Icon(Icons.shopping_bag_outlined, color: Colors.black)),
-          Positioned(
-              right: 16,
-              top: 15,
-              child: Container(
-                width: 9,
-                height: 9,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ))
-        ],
-      ),
-    );
-  }
+  
 
   Widget _cardProduct(Store store) {
     return GestureDetector(
@@ -213,8 +189,6 @@ class _ClientStoreListPageState extends State<ClientStoreListPage> {
           ),
         ),
       ),
-        
-   
     );
   }
 
@@ -296,7 +270,7 @@ class _ClientStoreListPageState extends State<ClientStoreListPage> {
               //Si el usuario tiene mas de un rol entonces (?)
                 _con.showMyStore
                   ? ListTile(
-                      onTap: (){},
+                      onTap: _con.goToMyStore,
                       title: Text('Mi Tienda'),
                       trailing: Icon(Icons.store_mall_directory_sharp),
                     )
