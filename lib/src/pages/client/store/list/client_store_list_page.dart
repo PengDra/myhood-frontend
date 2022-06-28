@@ -46,7 +46,7 @@ class _ClientStoreListPageState extends State<ClientStoreListPage> {
                 SizedBox(
                   height: 64,
                 ),
-                Text('Todos las Tiendas',
+                Text('Todas las Tiendas',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -92,37 +92,6 @@ class _ClientStoreListPageState extends State<ClientStoreListPage> {
       ),
     );
   }
-
-  Widget _textFieldSearch() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: TextField(
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
-              color: Colors.grey[200],
-              width: 1,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
-              color: Colors.grey[200],
-              width: 1,
-            ),
-          ),
-          hintText: 'Buscar',
-          prefixIcon: Icon(
-            Icons.search,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
-  }
-
-  
 
   Widget _cardProduct(Store store) {
     return GestureDetector(
@@ -270,7 +239,7 @@ class _ClientStoreListPageState extends State<ClientStoreListPage> {
               //Si el usuario tiene mas de un rol entonces (?)
                 _con.showMyStore
                   ? ListTile(
-                      onTap: _con.goToMyStore,
+                      onTap: _con.goToRoles,
                       title: Text('Mi Tienda'),
                       trailing: Icon(Icons.store_mall_directory_sharp),
                     )

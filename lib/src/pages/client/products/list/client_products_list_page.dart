@@ -51,7 +51,16 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                 SizedBox(
                   height: 64,
                 ),
-                _textFieldSearch(),
+                _IconGoogleMaps(),
+                Text(
+                  store.name,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                
                 
               ],
             ),
@@ -105,35 +114,6 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
           'assets/img/menu.png',
           width: 20,
           height: 20,
-        ),
-      ),
-    );
-  }
-
-  Widget _textFieldSearch() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: TextField(
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
-              color: Colors.grey[200],
-              width: 1,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
-              color: Colors.grey[200],
-              width: 1,
-            ),
-          ),
-          hintText: 'Buscar',
-          prefixIcon: Icon(
-            Icons.search,
-            color: Colors.black,
-          ),
         ),
       ),
     );
@@ -317,7 +297,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
               //Si el usuario tiene mas de un rol entonces (?)
                 _con.showMyStore
                   ? ListTile(
-                      onTap: (){},
+                      onTap: _con.goToRoles,
                       title: Text('Mi Tienda'),
                       trailing: Icon(Icons.store_mall_directory_sharp),
                     )
@@ -351,6 +331,16 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
             trailing: Icon(Icons.power_settings_new),
           )
         ],
+      ),
+    );
+  }
+  Widget _IconGoogleMaps(){
+    return GestureDetector(
+      onTap:(){_con.launchGoogleMaps(store);},
+      child: Container(
+        child: Image.asset('assets/img/google_maps.png'),
+        height:40,
+        width:40,
       ),
     );
   }

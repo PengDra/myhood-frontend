@@ -8,6 +8,7 @@ import 'package:myhood/src/pages/client/products/detail/client_products_detail_p
 import 'package:myhood/src/provider/categories_provider.dart';
 import 'package:myhood/src/provider/products_provider.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 /// Esta clase controla la vista de ver todos los productos.
@@ -50,6 +51,22 @@ class ClientProductsListController {
    
     getCategoriesByIdStore(store.id);
     refresh();
+  }
+  void launchGoogleMaps(Store selectedStore) async {
+    //get the store from the database
+    
+    var url = 'google.navigation:q=${selectedStore.lat.toString()},${selectedStore.lng.toString()}';
+    var fallbackUrl =
+        'https://www.google.com/maps/search/?api=1&query=${store.lat.toString()},${store.lng.toString()}';
+    try {
+      bool launched =
+      await launch(url, forceSafariVC: false, forceWebView: false);
+      if (!launched) {
+        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+      }
+    } catch (e) {
+      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+    }
   }
 
   Future<List<Product>> getProductsByStore(String idCategory,String idStore) async {

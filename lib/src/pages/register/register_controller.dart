@@ -61,6 +61,11 @@ class RegisterController {
       MySnackbar.show(context, "Todos los campos son obligatorios");
       return;
     }
+    
+    if (rut.length > 9 || phone.length > 9) {
+      MySnackbar.show(context, "El rut y el telefono no pueden tener mas de 9 caracteres");
+      return;
+    }
 
     if (password != confirmPassword) {
       MySnackbar.show(context, "Las contraseñas no coinciden");

@@ -29,7 +29,7 @@ class _ClientUpgradeToStorePageState extends State<ClientUpgradeToStorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text('Editar Perfil')
+        title:Text('Crear Tienda')
       ),
       body: Container(
         width: double.infinity,
@@ -76,7 +76,7 @@ class _ClientUpgradeToStorePageState extends State<ClientUpgradeToStorePage> {
                         //Si la url de la imagen existe 
                         :_con.user?.image != null
                         //muestrala desde interntet
-                        ? NetworkImage(_con.user.image)
+                        ? AssetImage('assets/img/user_profile_2.png')
                         //Si no existe, muestra la imagen por defecto
                         : AssetImage('assets/img/user_profile_2.png'),
         radius: 50,
