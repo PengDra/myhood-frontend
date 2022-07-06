@@ -195,7 +195,7 @@ class _StoreOrdersDetailPageState extends State<StoreOrdersDetailPage> {
                 width: 40,
                 child: FadeInImage(
                   image: _con.user?.image != null
-                      ? NetworkImage(_con.user?.image)
+                      ? NetworkImage(user?.image)
                       : AssetImage('assets/img/no-image.png'),
                   fit: BoxFit.cover,
                   fadeInDuration: Duration(milliseconds: 50),

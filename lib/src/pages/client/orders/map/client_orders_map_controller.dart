@@ -4,7 +4,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
+import 'package:myhood/src/api/enviroment.dart';
 import 'dart:async';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'package:myhood/src/models/order.dart';
 import 'package:myhood/src/models/response_api.dart';
@@ -39,6 +41,7 @@ class ClientOrdersMapController {
   SharedPref sharedPref = SharedPref();
 
   double _distanceBetween;
+  IO.Socket socket;
 
 
 
@@ -59,6 +62,16 @@ class ClientOrdersMapController {
     user =  User.fromJson( await sharedPref.read('user'));
     deliveryMarker = await createMarkerfromAsset('assets/img/scooter_azul_100x100.png',);
     homeMarker = await createMarkerfromAsset('assets/img/home.png',);
+    socket = IO.io('http://${Environment.API_MyHOOD}/orders/delivery',<String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket.connect();
+    socket.on('position/${order.id}', (data) {
+      print(data);
+       addMarker('delivery',data['lat'],data['lng'] ,'Repartidor','',deliveryMarker);
+    });
+
     checkGPS();
     refresh();
   }
@@ -133,28 +146,15 @@ class ClientOrdersMapController {
       _position = await Geolocator.getLastKnownPosition();//Lat y Long
       animateCameraToPosition(_position.latitude, _position.longitude);//Mueve la camara hasta el punto designado
       //Agrega el marcador del delivery(Moto)     
-      addMarker('delivery',_position.latitude, _position.longitude,'Tu Posicion','',deliveryMarker);//Agrega el marcador
+      addMarker('delivery',order.lat, order.lng,'Tu Posicion','',deliveryMarker);//Agrega el marcador
       addMarker('home',order.address.lat, order.address.lng,'Lugar de entrega','',homeMarker);
       //Determina posicion en tiempo real del repartidor
-      _positionStream = Geolocator.getPositionStream(
-        desiredAccuracy: LocationAccuracy.medium,
-        distanceFilter: 1
-      ).listen((Position position) {
-        _position = position;
-        addMarker('delivery',_position.latitude, _position.longitude,'Tu Posicion','',deliveryMarker);
-        animateCameraToPosition(_position.latitude, _position.longitude);
-        isCloseToDeliveryPosition();
-        refresh();
-       });
-
-
-
     }catch(e){
       print("Error :"+e);
     }
   } 
   void dispose(){
-    _positionStream?.cancel();
+    socket?.disconnect();
   }
 
   //Animar la camara
@@ -243,42 +243,6 @@ class ClientOrdersMapController {
   // continue accessing the position of the device.
   return await Geolocator.getCurrentPosition();
 }
-
-
-
-
-void launchWaze() async {
-    var url = 'waze://?ll=${order.address.lat.toString()},${order.address.lng.toString()}';
-    var fallbackUrl =
-        'https://waze.com/ul?ll=${order.address.lat.toString()},${order.address.lng.toString()}&navigate=yes';
-    try {
-      bool launched =
-      await launch(url, forceSafariVC: false, forceWebView: false);
-      if (!launched) {
-        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
-      }
-    } catch (e) {
-      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
-    }
-  }
-
-
-
-
-  void launchGoogleMaps() async {
-    var url = 'google.navigation:q=${order.address.lat.toString()},${order.address.lng.toString()}';
-    var fallbackUrl =
-        'https://www.google.com/maps/search/?api=1&query=${order.address.lat.toString()},${order.address.lng.toString()}';
-    try {
-      bool launched =
-      await launch(url, forceSafariVC: false, forceWebView: false);
-      if (!launched) {
-        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
-      }
-    } catch (e) {
-      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
-    }
-  }
 
 
 }

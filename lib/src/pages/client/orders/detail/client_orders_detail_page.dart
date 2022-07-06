@@ -67,7 +67,7 @@ class _ClientOrdersDetailPageState extends State<ClientOrdersDetailPage> {
                   ),
                  
                  
-                  _textData('Repartidor:  ', '${_con.order?.delivery.name??'No Asignado'} ${_con.order?.delivery.lastname}'),
+                  _textData('Repartidor:  ', '${_con.order?.delivery.name??'No Asignado'} ${_con.order?.delivery.lastname??''}'),
                  
                   _textData('Entregar en : ','${_con.order.address.address}'),
                  

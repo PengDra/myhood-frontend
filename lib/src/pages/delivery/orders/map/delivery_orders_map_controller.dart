@@ -4,12 +4,14 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
+import 'package:myhood/src/api/enviroment.dart';
 import 'dart:async';
 
 import 'package:myhood/src/models/order.dart';
 import 'package:myhood/src/models/response_api.dart';
 import 'package:myhood/src/models/user.dart';
 import 'package:myhood/src/provider/orders_provider.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:myhood/src/utils/my_snackbar.dart';
 import 'package:myhood/src/utils/shared_pref.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,6 +40,8 @@ class DeliveryOrdersMapController {
   SharedPref sharedPref = SharedPref();
 
   double _distanceBetween;
+ 
+ IO.Socket socket;
 
 
 
@@ -58,8 +62,26 @@ class DeliveryOrdersMapController {
     user =  User.fromJson( await sharedPref.read('user'));
     deliveryMarker = await createMarkerfromAsset('assets/img/scooter_azul_100x100.png',);
     homeMarker = await createMarkerfromAsset('assets/img/home.png',);
+    socket = IO.io('http://${Environment.API_MyHOOD}/orders/delivery',<String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket.connect();
     checkGPS();
     refresh();
+  }
+
+  void saveLocation()async{
+    order.lat= _position.latitude;
+    order.lng= _position.longitude;
+    await _ordersProvider.updateLatLng(order);
+  }
+  void emitPosition(){
+    socket.emit('position',{
+      'id_order':order.id,
+      'lat':_position.latitude,
+      'lng':_position.longitude
+    });
   }
   void updateToDelivered()async{
     if(_distanceBetween <= 100){
@@ -128,8 +150,9 @@ class DeliveryOrdersMapController {
   void updateLocation()async{
 
     try{
-      await _determinePosition();//Obtener posicion actual
+      await _determinePosition();//Obtener posicion actual   
       _position = await Geolocator.getLastKnownPosition();//Lat y Long
+      saveLocation();//Guardar posicion actual en la base de datos
       animateCameraToPosition(_position.latitude, _position.longitude);//Mueve la camara hasta el punto designado
       //Agrega el marcador del delivery(Moto)     
       addMarker('delivery',_position.latitude, _position.longitude,'Tu Posicion','',deliveryMarker);//Agrega el marcador
@@ -140,6 +163,7 @@ class DeliveryOrdersMapController {
         distanceFilter: 1
       ).listen((Position position) {
         _position = position;
+        emitPosition();
         addMarker('delivery',_position.latitude, _position.longitude,'Tu Posicion','',deliveryMarker);
         animateCameraToPosition(_position.latitude, _position.longitude);
         isCloseToDeliveryPosition();
@@ -153,7 +177,9 @@ class DeliveryOrdersMapController {
     }
   } 
   void dispose(){
+
     _positionStream?.cancel();
+    socket?.disconnect();
   }
 
   //Animar la camara
