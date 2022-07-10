@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myhood/src/pages/client/adress/create/client_adress_create_page.dart';
 import 'package:myhood/src/pages/client/adress/list/client_adress_list_page.dart';
 import 'package:myhood/src/pages/client/adress/map/client_adress_map_page.dart';
+import 'package:myhood/src/pages/client/orders/confirm/client_orders_confirm_page.dart';
 import 'package:myhood/src/pages/client/orders/create/client_orders_create_page.dart';
 import 'package:myhood/src/pages/client/orders/list/client_orders_list_page.dart';
 import 'package:myhood/src/pages/client/products/list/client_products_list_page.dart';
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
         'client/products/list':(BuildContext context)=>ClientProductsListPage(),
         'client/update':(BuildContext context)=>ClientUpdatePage(),
         'client/orders/create':(BuildContext context)=>ClientOrdersCreatePage(),
+        'client/orders/confirm':(BuildContext context)=>ClientOrdersConfirmPage(),
         'client/orders/list':(BuildContext context)=>ClientOrdersListPage(),
         'client/adress/create':(BuildContext context)=>ClientAdressCreatePage(),
         'client/adress/list':(BuildContext context)=>ClientAdressListPage(),

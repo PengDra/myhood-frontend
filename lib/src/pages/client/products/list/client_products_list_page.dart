@@ -53,7 +53,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                 ),
                 _IconGoogleMaps(),
                 Text(
-                  store.name,
+                  store?.name??'',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

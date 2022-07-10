@@ -47,6 +47,8 @@ class ClientStoreListController {
     this.refresh = refresh;
     //remueve la orden del shared preferences
     await _sharedPref.remove('order');
+    //remueve la tienda seleccionada en shared pref.
+    await _sharedPref.remove('selectedstore');
     getStores();
     refresh();
   }

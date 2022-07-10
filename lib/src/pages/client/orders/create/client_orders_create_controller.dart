@@ -29,8 +29,8 @@ class ClientOrdersCreateController{
     this.refresh = refresh;
     selectedProducts = Product.fromJsonList(await _sharedPref.read('order')).toList;
     getTotal();
-    //get store from arguments
-    store=  ModalRoute.of(context).settings.arguments;
+    //get store from shared pref
+    store=  Store.fromJson(await _sharedPref.read('selectedstore'));
     refresh();
   }
   void getTotal(){

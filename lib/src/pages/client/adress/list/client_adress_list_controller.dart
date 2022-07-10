@@ -27,7 +27,7 @@ class ClientAdressListController {
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    store=  ModalRoute.of(context).settings.arguments;
+    store= Store.fromJson(await _sharedPref.read('selectedstore'));
     user = User.fromJson(await _sharedPref.read('user'));
     _addressProvider.init(context);
     _ordersProvider.init(context);
@@ -35,7 +35,7 @@ class ClientAdressListController {
   }
 
   void goToNewAdress() async {
-    var result = await Navigator.pushNamed(context, 'client/adress/create', arguments: store);
+    var result = await Navigator.pushNamed(context, 'client/adress/create');
     if (result != null) {
       if (result) {
         refresh();
@@ -60,6 +60,7 @@ class ClientAdressListController {
     if (index != -1) {
       radioValue = index;
     }
+    
     return address;
   }
 
@@ -72,15 +73,29 @@ class ClientAdressListController {
   void createOrder()async{
     Address a = Address.fromJson(await _sharedPref.read('address') ?? {});
     List<Product> selectedProducts = Product.fromJsonList(await _sharedPref.read('order')).toList;
+    
     Order order = new Order(
       idClient: user.id,
       idAddress: a.id,
       products: selectedProducts
     );
+    //guardar Direccion seleccionada en shared pref
+    _sharedPref.save('selectedaddress', a);
+    //Guardar orden en el shared preferences
+    _sharedPref.save('MyOrder', order);
+    //Guardar la tienda seleccionada en el shared preferences
+    _sharedPref.save('selectedstore', store);
+    //redireccionar a la pantalla de confirmacion de la orden
+    Navigator.pushNamed(context, 'client/orders/confirm');
+
+
+    /*
+
     ResponseApi response = await _ordersProvider.createWithStore(order,store);
     print('Respuesta: ${response.message}');
     Fluttertoast.showToast(msg: response.message);
     Navigator.pushNamedAndRemoveUntil(context, 'client/store/list', (route) => false);
+    */
   }
 
   /// maneja el valor del radio button.

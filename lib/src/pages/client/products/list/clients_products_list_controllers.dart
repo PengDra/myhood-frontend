@@ -35,6 +35,8 @@ class ClientProductsListController {
     _productsProvider.init(context);
     //Obten la tienda desde los parametros de la ruta.
     store = ModalRoute.of(context).settings.arguments;
+    //guarda la tienda seleccionada en shared pref.
+    _sharedPref.save('selectedstore', store);
     print('Dentro del init');
     user = User.fromJson(await _sharedPref.read('user'));
     user.roles.forEach((element) {
