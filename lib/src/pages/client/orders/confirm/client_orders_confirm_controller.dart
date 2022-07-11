@@ -107,7 +107,7 @@ class ClientOrdersConfirmController{
       idDelivery: store.id,
       amount: total.toString()
     );
-    ResponseApi response = await _ordersProvider.createWithStore(order,store);
+    ResponseApi response = await _ordersProvider.createWithStoreAndPayment(order, store, payment);
     print('Respuesta: ${response.message}');
     Fluttertoast.showToast(msg: response.message);
     Navigator.pushNamedAndRemoveUntil(context, 'client/store/list', (route) => false);

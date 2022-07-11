@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:myhood/src/api/enviroment.dart';
+import 'package:myhood/src/models/payment.dart';
 import 'package:myhood/src/models/response_api.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhood/src/models/store.dart';
@@ -46,6 +47,27 @@ class OrdersProvider{
       final res = await http.post(url, headers: headers, body: jsonEncode({
         'order': jsonOrder,
         'store': jsonStore
+      }));
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Exception create: $e');
+      return null;
+    }
+  }
+  Future<ResponseApi> createWithStoreAndPayment(Order order,Store store,Payment payment) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/createWithStoreAndPayment');
+      String jsonOrder= jsonEncode(order);
+      String jsonStore= jsonEncode(store);
+      String jsonPayment= jsonEncode(payment);
+      
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      final res = await http.post(url, headers: headers, body: jsonEncode({
+        'order': jsonOrder,
+        'store': jsonStore,
+        'payment': jsonPayment
       }));
       final data = json.decode(res.body);
       ResponseApi responseApi = ResponseApi.fromJson(data);
