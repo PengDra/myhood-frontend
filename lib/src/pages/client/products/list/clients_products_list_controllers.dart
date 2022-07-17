@@ -26,14 +26,14 @@ class ClientProductsListController {
   CategoriesProvider _categoriesProvider = new CategoriesProvider();
   ProductsProvider _productsProvider = new ProductsProvider();
   List<Categori> categories = [];
-  Store store = new Store();
+  Store store ;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     _categoriesProvider.init(context);
     _productsProvider.init(context);
-    //Obten la tienda desde los parametros de la ruta.
+    //Obten la tienda desde los shared preferences
     store = ModalRoute.of(context).settings.arguments;
     //guarda la tienda seleccionada en shared pref.
     _sharedPref.save('selectedstore', store);
@@ -59,7 +59,7 @@ class ClientProductsListController {
     
     var url = 'google.navigation:q=${selectedStore.lat.toString()},${selectedStore.lng.toString()}';
     var fallbackUrl =
-        'https://www.google.com/maps/search/?api=1&query=${store.lat.toString()},${store.lng.toString()}';
+        'https://www.google.com/maps/search/?api=1&query=${selectedStore.lat.toString()},${selectedStore.lng.toString()}';
     try {
       bool launched =
       await launch(url, forceSafariVC: false, forceWebView: false);
